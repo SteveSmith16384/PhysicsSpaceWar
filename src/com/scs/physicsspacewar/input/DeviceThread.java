@@ -71,14 +71,14 @@ public final class DeviceThread extends Thread {
 					}
 
 				}
-				if (keyboard1.isJumpPressed()) {
+				if (keyboard1.isFirePressed()) {
 					synchronized (createdDevices) {
 						if (createdDevices.get(-1) == null) {
 							this.createController(-1, keyboard1);
 						}
 					}
 				}
-				if (keyboard2.isJumpPressed()) {
+				if (keyboard2.isFirePressed()) {
 					synchronized (createdDevices) {
 						if (createdDevices.get(-2) == null) {
 							this.createController(-2, keyboard2);

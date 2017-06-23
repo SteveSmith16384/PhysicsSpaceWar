@@ -21,10 +21,10 @@ public class Meteor extends PhysicalEntity implements IDrawable, ICollideable, I
 	public Meteor(Main main, Vec2 pos, Vec2 force) {
 		super(main, Meteor.class.getSimpleName());
 
-		BodyUserData bud = new BodyUserData("Meteor", Color.yellow, this);
-		body = JBox2DFunctions.AddCircle(bud, main.world, pos.x, pos.y, .1f, BodyType.DYNAMIC, .1f, .2f, 1f);
+		BodyUserData bud = new BodyUserData("Meteor", Color.DARK_GRAY, this);
+		body = JBox2DFunctions.AddCircle(bud, main.world, pos.x, pos.y, 10f, BodyType.DYNAMIC, .1f, .2f, 1f);
 
-		force.normalize();
+		//force.normalize();
 		body.applyLinearImpulse(force, Statics.VEC_CENTRE, true);
 	}
 

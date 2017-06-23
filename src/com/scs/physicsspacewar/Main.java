@@ -98,7 +98,6 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			synchronized (newControllers) {
 				while (this.newControllers.isEmpty() == false) {
 					this.loadPlayer(this.newControllers.remove(0));
-					//this.entities.refresh(); // To add avatars to the main list
 				}
 			}
 
@@ -117,8 +116,8 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 					IAffectedByGravity affected = (IAffectedByGravity)e;
 					for (ICausesGravity cg : this.gravityCausers) {
 						Vec2 dir = cg.getPosition().sub(affected.getPosition());
-						float dist = (float)Math.sqrt(dir.length());
-						affected.applyForceToCenter(dir.mul(1/dist));
+						float dist = (float)Math.sqrt(dir.length()*cg.getGravityStrength());
+						affected.applyLinearImpulse(dir.mul(1/dist));
 					}
 				}
 			}
@@ -142,7 +141,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			}
 
 			// Position cam based on players
-			Vec2 cam_centre = new Vec2();//this.chopper.getWorldCenter().clone();
+			Vec2 cam_centre = new Vec2();
 			cam_centre.x = (Statics.WINDOW_WIDTH / 2);// / Statics.WORLD_TO_PIXELS);
 			cam_centre.y = (Statics.WINDOW_HEIGHT / 2);// / Statics.WORLD_TO_PIXELS);
 
@@ -153,7 +152,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			g.fillRect(0, 0, Statics.WINDOW_WIDTH, Statics.WINDOW_HEIGHT);
 
 			g.setColor(Color.white);
-			g.drawString("Press ESC to Restart", 20, 30);
+			//g.drawString("Press ESC to Restart", 20, 50);
 
 			for (Entity e : this.entities) {
 				if (e instanceof IDrawable) {
@@ -247,27 +246,6 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			}
 
 		}
-		//Collisions.Collision(entityA, entityB);
-
-		/*try {
-			if (ba_ud.type == BodyUserData.Type.Crate || bb_ud.type == BodyUserData.Type.Crate) {
-				if (ba_ud.type == BodyUserData.Type.StickyRope || bb_ud.type == BodyUserData.Type.StickyRope) {
-
-					RevoluteJointDef wjd = new RevoluteJointDef();
-					wjd.collideConnected = false;
-					wjd.initialize(ba, bb, new Vec2(ba.getPosition().x, ba.getPosition().y));
-					new_joints_waiting.add(wjd);
-				} else if (ba_ud.type == BodyUserData.Type.Tanker || bb_ud.type == BodyUserData.Type.Tanker) {
-					Statics.p("BeginContact A:" + ba.getUserData());
-					Statics.p("BeginContact B:" + bb.getUserData());
-					if (ba_ud.type == BodyUserData.Type.Crate) {
-						this.objects.remove(ba);
-					}
-				}
-			}
-		} catch (java.lang.NullPointerException ex) {
-			// Do nothing
-		}*/
 
 	}
 
@@ -317,71 +295,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 	}
 
 
-	/*
-	private void ropeAllDown() {
-		if (new_joints_waiting.size() == 0) {
-			if (this.ropelist == null) {
-				rope_length = Statics.MAX_ROPE_LENGTH;
-				this.createRope();
-			}
-		}
-	}
 
-	private void ropeAllUp() {
-		if (new_joints_waiting.size() == 0) {
-			if (this.ropelist != null) {
-				this.removeRope();
-			}
-		}
-	}
-
-	private void ropeSegmentDown() {
-		if (new_joints_waiting.size() == 0) {
-			if (rope_length < 8) {
-				rope_length++;
-				this.removeRope();
-				this.createRope();
-			}
-		}
-	}
-
-
-	private void ropeSegmentUp() {
-		if (new_joints_waiting.size() == 0) {
-			if (rope_length > 0) {
-				rope_length--;
-				this.removeRope();
-				if (rope_length > 0) {
-					this.createRope();
-				}
-			}
-		}
-	}
-
-
-	private void createRope() {
-		ropelist = JBox2DFunctions.AddRopeShape(new MyUserData("Rope", MyUserData.Type.Rope, Color.yellow),
-				new MyUserData("Rope_End", MyUserData.Type.StickyRope, Color.yellow),
-				world, this, chopper, rope_length, rope_length);
-
-	}
-
-
-	private void removeRope() {
-		if (ropelist != null) {
-			for (RevoluteJointDef rjd : ropelist) {
-				if (rjd.bodyA != chopper) {
-					remove(rjd.bodyA);
-				}
-				if (rjd.bodyB != chopper) {
-					remove(rjd.bodyB);
-				}
-			}
-			ropelist = null;
-		}
-	}
-
-	 */
 	public void removeEntity(Entity b) {
 		b.cleanup(world);
 		/*if (b instanceof PhysicalEntity) {

@@ -25,7 +25,7 @@ import com.scs.physicsspacewar.input.IInputDevice;
 public class PlayersShip extends PhysicalEntity implements IPlayerControllable, IDrawable, ICollideable, IProcessable, IAffectedByGravity, IDamagable {
 
 	private static final int SHOT_INT = 2000;
-	public static final float RAD = 10f;
+	public static final float RAD = 10f; // todo - rename
 	//private static final float MAX_VELOCITY = 5;//7f;	
 
 	public int id;
@@ -39,13 +39,12 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 		id = player.id;
 
 		BodyUserData bud = new BodyUserData("Player_Body", Color.black, this);
-		//Body body = JBox2DFunctions.AddRectangle(bud, world, 50, 10, 4, 4, BodyType.DYNAMIC, .2f, .2f, .4f);
-		//body = JBox2DFunctions.AddCircle(bud, world, x, y, RAD, BodyType.DYNAMIC, .1f, .6f, .5f);
 		Vec2[] vertices = new Vec2[3];
 		vertices[0] = new Vec2(RAD/2, 0);
 		vertices[1] = new Vec2(RAD, RAD);
 		vertices[2] = new Vec2(0, RAD);
 		body = JBox2DFunctions.CreateComplexShape(bud, world, vertices, BodyType.DYNAMIC, .2f, .3f, 1f);
+		body.setTransform(new Vec2(x, y), 1);
 		body.setBullet(true);
 
 		PolygonShape ps = new PolygonShape();
@@ -66,26 +65,28 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 			Vec2 force = new Vec2();
 			force.y = (float)Math.cos(body.getAngle()) * -1;
 			force.x = (float)Math.sin(body.getAngle());
-			force.mulLocal(Statics.ROTOR_FORCE);
+			force.mulLocal(Statics.JET_FORCE);
 			body.applyForceToCenter(force);//, v);
 		}
 		
 		if (input.isFirePressed()) {
 			if (System.currentTimeMillis() > lastShotTime + SHOT_INT) {
-				Vec2 dir = new Vec2();
-				dir.set(body.getLinearVelocity());
-				Bullet bullet = new Bullet(main, this, this.body.getWorldCenter().add(dir), dir);
+				float dirx = (float)Math.sin(this.body.getAngle());
+				float diry = (float)Math.cos(this.body.getAngle());
+				Vec2 dir = new Vec2(dirx, diry*-1);
+				
+				Vec2 startOffset = dir.clone();
+				startOffset.normalize();
+				startOffset.mulLocal(RAD*2);
+				
+				Vec2 force = dir.mul(1600*3f);
+				//dir.set(body.getLinearVelocity()); // todo - add our speed/dir
+
+				Bullet bullet = new Bullet(main, this, this.body.getWorldCenter().add(startOffset), force);
 				main.addEntity(bullet);
 				lastShotTime = System.currentTimeMillis();
 			}
 		}
-
-		//Vec2 vel = body.getLinearVelocity();
-		// cap max velocity on x		
-		/*if(Math.abs(vel.x) > MAX_VELOCITY) {			
-			vel.x = Math.signum(vel.x) * MAX_VELOCITY;
-			body.setLinearVelocity(vel);
-		}*/
 
 	}
 
@@ -149,7 +150,7 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 
 	@Override
 	public void damage(float amt) {
-		// TODO
+		main.removeEntity(this);
 		
 	}
 

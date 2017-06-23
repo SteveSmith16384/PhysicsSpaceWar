@@ -10,8 +10,8 @@ public class Statics {
 
 	public static final boolean DEBUG = true;
 	
-	public static final float TURN_TORQUE = 80*3f;
-	public static final float ROTOR_FORCE = 80*5f;
+	public static final float TURN_TORQUE = 80*4f;
+	public static final float JET_FORCE = 80*7f;
 	
 	public static final int FPS = 30;
 	public static final float LOGICAL_TO_PIXELS = 1f;

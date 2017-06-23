@@ -25,11 +25,12 @@ public class Bullet extends PhysicalEntity implements IDrawable, ICollideable, I
 
 		shooter = shooter_;
 		
-		BodyUserData bud = new BodyUserData("Bullet", Color.yellow, this);
-		body = JBox2DFunctions.AddCircle(bud, main.world, pos.x, pos.y, .1f, BodyType.DYNAMIC, .1f, .2f, 1f);
+		BodyUserData bud = new BodyUserData("Bullet", Color.darkGray, this); // todo - make yellow
+		body = JBox2DFunctions.AddCircle(bud, main.world, pos.x, pos.y, .1f, BodyType.DYNAMIC, .1f, .2f, .1f);
 		
-		force.normalize();
 		body.applyLinearImpulse(force, Statics.VEC_CENTRE, true);
+		//body.applyForceToCenter(force);//, v);
+
 	}
 
 	
@@ -46,6 +47,7 @@ public class Bullet extends PhysicalEntity implements IDrawable, ICollideable, I
 				IDamagable id = (IDamagable)other;
 				id.damage(1f);
 			}
+			main.removeEntity(this);
 		}
 		
 	}

@@ -1,10 +1,9 @@
 TODO
-Meteors
-Space monster with "rope" tentacles
-	Change ship to triangle
-	Keep sep list of gravity generators
-	Implement gavity
+Get gameplay feel right
+	Meteors
 	Shooting
 
 LATER
+Space monster with "rope" tentacles
 Create camera - zoom in/out
+

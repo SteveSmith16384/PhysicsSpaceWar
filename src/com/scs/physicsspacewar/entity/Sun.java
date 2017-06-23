@@ -26,7 +26,7 @@ public class Sun extends PhysicalEntity implements IDrawable, ICausesGravity {
 
 	@Override
 	public void draw(Graphics g, DrawingSystem system, Vec2 cam_centre) {
-		system.drawShape(tmpPoint, g, body, cam_centre);
+		//system.drawShape(tmpPoint, g, body, cam_centre);
 		
 	}
 	
