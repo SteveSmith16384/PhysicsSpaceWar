@@ -1,4 +1,9 @@
 TODO
+Show jet
+Enemy bullets makes player go out of control
+Race mode
+Limit spin speed
+
 Get gameplay feel right
 	Meteors
 	Shooting

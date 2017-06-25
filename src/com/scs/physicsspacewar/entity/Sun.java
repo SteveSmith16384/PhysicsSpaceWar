@@ -17,7 +17,7 @@ import com.scs.physicsspacewar.entity.systems.DrawingSystem;
 public class Sun extends PhysicalEntity implements IDrawable, ICausesGravity {
 
 	public Sun(Main main, World world, float x, float y, float rad) {
-		super(main, "Barrel");
+		super(main, "Sun");
 		
 		BodyUserData bud = new BodyUserData("Sun", Color.yellow, this);
 		body = JBox2DFunctions.AddCircle(bud, world, x, y, rad, BodyType.DYNAMIC, .1f, .2f, 10);
@@ -26,7 +26,7 @@ public class Sun extends PhysicalEntity implements IDrawable, ICausesGravity {
 
 	@Override
 	public void draw(Graphics g, DrawingSystem system, Vec2 cam_centre) {
-		//system.drawShape(tmpPoint, g, body, cam_centre);
+		system.drawShape(tmpPoint, g, body, cam_centre);
 		
 	}
 	

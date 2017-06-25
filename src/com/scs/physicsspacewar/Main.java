@@ -54,7 +54,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 	private List<Contact> collisions = new LinkedList<>();
 	private AbstractMap level;
 	private boolean restartLevel = false;
-	private int levelNum = 6;
+	private int levelNum = 1;
 
 
 	public static void main(String[] args) {
@@ -115,9 +115,12 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 				if (e instanceof IAffectedByGravity) {
 					IAffectedByGravity affected = (IAffectedByGravity)e;
 					for (ICausesGravity cg : this.gravityCausers) {
-						Vec2 dir = cg.getPosition().sub(affected.getPosition());
-						float dist = (float)Math.sqrt(dir.length()*cg.getGravityStrength());
-						affected.applyLinearImpulse(dir.mul(1/dist));
+						if (e != cg) {
+							Vec2 dir = cg.getPosition().sub(affected.getPosition());
+							float dist = (float)Math.sqrt(dir.length()*cg.getGravityStrength());
+							//affected.applyLinearImpulse(dir.mul(1/dist));
+							affected.applyForceToCenter(dir.mul(10/dist));
+						}
 					}
 				}
 			}

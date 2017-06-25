@@ -25,7 +25,7 @@ import com.scs.physicsspacewar.input.IInputDevice;
 public class PlayersShip extends PhysicalEntity implements IPlayerControllable, IDrawable, ICollideable, IProcessable, IAffectedByGravity, IDamagable {
 
 	private static final int SHOT_INT = 2000;
-	public static final float RAD = 10f; // todo - rename
+	public static final float SIZE = 4f;
 	//private static final float MAX_VELOCITY = 5;//7f;	
 
 	public int id;
@@ -40,15 +40,15 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 
 		BodyUserData bud = new BodyUserData("Player_Body", Color.black, this);
 		Vec2[] vertices = new Vec2[3];
-		vertices[0] = new Vec2(RAD/2, 0);
-		vertices[1] = new Vec2(RAD, RAD);
-		vertices[2] = new Vec2(0, RAD);
-		body = JBox2DFunctions.CreateComplexShape(bud, world, vertices, BodyType.DYNAMIC, .2f, .3f, 1f);
+		vertices[0] = new Vec2(SIZE/2, 0);
+		vertices[1] = new Vec2(SIZE, SIZE);
+		vertices[2] = new Vec2(0, SIZE);
+		body = JBox2DFunctions.CreateComplexShape(bud, world, vertices, BodyType.DYNAMIC, .2f, .3f, 10f);
 		body.setTransform(new Vec2(x, y), 1);
 		body.setBullet(true);
 
 		PolygonShape ps = new PolygonShape();
-		ps.setAsBox(RAD/2, RAD/10, new Vec2(0, RAD), 0);
+		ps.setAsBox(SIZE/2, SIZE/10, new Vec2(0, SIZE), 0);
 
 	}
 
@@ -66,7 +66,7 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 			force.y = (float)Math.cos(body.getAngle()) * -1;
 			force.x = (float)Math.sin(body.getAngle());
 			force.mulLocal(Statics.JET_FORCE);
-			body.applyForceToCenter(force);//, v);
+			body.applyForceToCenter(force);
 		}
 		
 		if (input.isFirePressed()) {
@@ -77,7 +77,7 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 				
 				Vec2 startOffset = dir.clone();
 				startOffset.normalize();
-				startOffset.mulLocal(RAD*2);
+				startOffset.mulLocal(SIZE*2);
 				
 				Vec2 force = dir.mul(1600*3f);
 				//dir.set(body.getLinearVelocity()); // todo - add our speed/dir

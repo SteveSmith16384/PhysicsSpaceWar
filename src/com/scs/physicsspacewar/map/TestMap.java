@@ -22,7 +22,7 @@ public class TestMap extends AbstractMap {
 
 
 	public void createWorld(World world, Main main) {
-		Sun sun = new Sun(main, world, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL/2, 100);
+		Sun sun = new Sun(main, world, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL/2, 50);
 		main.addEntity(sun);
 
 	}
@@ -41,7 +41,7 @@ public class TestMap extends AbstractMap {
 			Vec2 pos = new Vec2(Statics.WORLD_WIDTH_LOGICAL * .75f, Statics.WORLD_HEIGHT_LOGICAL * 0.75f);
 			Vec2 dir = new Vec2(-40000, 0);
 			Meteor met = new Meteor(main, pos, dir);
-			main.addEntity(met);
+			//main.addEntity(met);
 		}
 	}
 
