@@ -57,6 +57,7 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 	public void processInput() {
 		if (input.isLeftPressed()) {
 			body.applyTorque(-Statics.TURN_TORQUE);
+			//if (body.getAngularVelocity() )
 		} else if (input.isRightPressed()) {
 			body.applyTorque(Statics.TURN_TORQUE);		
 		}
@@ -92,8 +93,8 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 
 
 	@Override
-	public void draw(Graphics g, DrawingSystem system, Vec2 cam_centre) {
-		system.drawShape(tmpPoint, g, body, cam_centre);
+	public void draw(Graphics g, DrawingSystem system) {
+		system.drawShape(tmpPoint, g, body);
 	}
 
 

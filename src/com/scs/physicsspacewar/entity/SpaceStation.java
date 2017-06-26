@@ -30,9 +30,9 @@ public class SpaceStation extends PhysicalEntity implements IDrawable {
 
 
 	@Override
-	public void draw(Graphics g, DrawingSystem system, Vec2 cam_centre) {
+	public void draw(Graphics g, DrawingSystem system) {
 		//drawableBody.draw(g, system, cam_centre);
-		system.drawShape(tmpPoint, g, body, cam_centre);
+		system.drawShape(tmpPoint, g, body);
 		
 	}
 

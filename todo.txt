@@ -1,14 +1,15 @@
 TODO
-Show jet
-Enemy bullets makes player go out of control
-Race mode
-Limit spin speed
-
 Get gameplay feel right
+Show jet
+Limit spin speed
+	Create camera
 	Meteors
 	Shooting
 
 LATER
+Enemy bullets makes player go out of control
+Race mode
+Gun emplacements that shoot player
+zoom in/out with multiple players
 Space monster with "rope" tentacles
-Create camera - zoom in/out
 

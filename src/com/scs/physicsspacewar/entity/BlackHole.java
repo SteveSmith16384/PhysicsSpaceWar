@@ -15,7 +15,7 @@ public class BlackHole extends PhysicalEntity implements ICausesGravity {
 	}
 
 	@Override
-	public void draw(Graphics g, DrawingSystem system, Vec2 cam_centre) {
+	public void draw(Graphics g, DrawingSystem system) {
 		// Do nothing
 		
 	}

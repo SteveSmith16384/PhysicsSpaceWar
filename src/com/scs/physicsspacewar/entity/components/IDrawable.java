@@ -8,5 +8,5 @@ import com.scs.physicsspacewar.entity.systems.DrawingSystem;
 
 public interface IDrawable {
 
-	void draw(Graphics g, DrawingSystem system, Vec2 cam_centre);
+	void draw(Graphics g, DrawingSystem system);
 }

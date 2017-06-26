@@ -22,6 +22,9 @@ import com.scs.physicsspacewar.entity.components.IDrawable;
 
 public class DrawingSystem {
 
+	private float LOGICAL_TO_PIXELS = 3f;
+
+	public Vec2 cam_centre;
 	private Stroke stroke;
 
 	public DrawingSystem() {
@@ -29,26 +32,26 @@ public class DrawingSystem {
 	}
 
 
-	public void process(Graphics g, IDrawable sprite, Vec2 cam_centre) {
-		sprite.draw(g, this, cam_centre);
+	public void process(Graphics g, IDrawable sprite) {
+		sprite.draw(g, this);
 
 	}
 
 
-	private void getPixelPos(Point ret, Vec2 worldpos, Vec2 cam_centre) {
+	private void getPixelPos(Point ret, Vec2 worldpos) {
 		//Vec2 worldpos = b.getWorldPoint(v);
-		int x1 = (int)((worldpos.x * Statics.LOGICAL_TO_PIXELS)-cam_centre.x + (Statics.WINDOW_WIDTH/2));
-		int y1 = (int)((worldpos.y * Statics.LOGICAL_TO_PIXELS)-cam_centre.y + (Statics.WINDOW_HEIGHT/2));
+		int x1 = (int)((worldpos.x * LOGICAL_TO_PIXELS)-cam_centre.x + (Statics.WINDOW_WIDTH/2));
+		int y1 = (int)((worldpos.y * LOGICAL_TO_PIXELS)-cam_centre.y + (Statics.WINDOW_HEIGHT/2));
 		//return new Point(x1, y1);
 		ret.x = x1;
 		ret.y = y1;
 	}
 
 
-	public void drawImage(Point tmp, BufferedImage img, Graphics g, Body b, Vec2 cam_centre) {
+	public void drawImage(Point tmp, BufferedImage img, Graphics g, Body b) {
 		//CircleShape shape2 = (CircleShape)f.getShape();
 		Vec2 worldpos = b.getPosition();
-		getPixelPos(tmp, worldpos, cam_centre);
+		getPixelPos(tmp, worldpos);
 		//int rad = (int)(shape2.getRadius() * Statics.LOGICAL_TO_PIXELS);
 		//g.fillOval((int)(p2.x-rad), (int)(p2.y-rad), rad*2, rad*2);
 		int rad = img.getWidth()/2;
@@ -57,7 +60,7 @@ public class DrawingSystem {
 	}
 
 
-	public void drawShape(Point tmp, Graphics g, Body b, Vec2 cam_centre) {
+	public void drawShape(Point tmp, Graphics g, Body b) {
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setStroke(stroke);
 
@@ -85,7 +88,7 @@ public class DrawingSystem {
 				PolygonShape shape = (PolygonShape)f.getShape();
 				for (int i=0 ; i<shape.getVertexCount() ; i++) {
 					Vec2 v = shape.getVertex(i);
-					getPixelPos(tmp, b.getWorldPoint(v), cam_centre);
+					getPixelPos(tmp, b.getWorldPoint(v));
 					polygon.addPoint(tmp.x, tmp.y);
 				}
 				g.drawPolygon(polygon);
@@ -96,7 +99,7 @@ public class DrawingSystem {
 				Vec2 v = shape.m_vertex2;
 				Vec2 worldpos = b.getWorldPoint(prev);
 				Point p = new Point();
-				getPixelPos(p, worldpos, cam_centre);
+				getPixelPos(p, worldpos);
 
 				//int x1 = (int)((worldpos.x-cam_centre.x)*Statics.WORLD_TO_PIXELS);
 				//int y1 = (int)((worldpos.y-cam_centre.y)*Statics.WORLD_TO_PIXELS);
@@ -104,7 +107,7 @@ public class DrawingSystem {
 				worldpos = b.getWorldPoint(v);
 				//int x2 = (int)((worldpos.x-cam_centre.x)*Statics.WORLD_TO_PIXELS);
 				//int y2 = (int)((worldpos.y-cam_centre.y)*Statics.WORLD_TO_PIXELS);
-				getPixelPos(tmp, worldpos, cam_centre);
+				getPixelPos(tmp, worldpos);
 
 				g.drawLine(p.x, p.y, tmp.x, tmp.y);
 
@@ -128,8 +131,8 @@ public class DrawingSystem {
 			} else if (f.getShape() instanceof CircleShape) {
 				CircleShape shape2 = (CircleShape)f.getShape();
 				Vec2 worldpos = b.getPosition();
-				getPixelPos(tmp, worldpos, cam_centre);
-				int rad = (int)(shape2.getRadius() * Statics.LOGICAL_TO_PIXELS);
+				getPixelPos(tmp, worldpos);
+				int rad = (int)(shape2.getRadius() * LOGICAL_TO_PIXELS);
 				if (rad < 1) {
 					rad = 1;
 				}

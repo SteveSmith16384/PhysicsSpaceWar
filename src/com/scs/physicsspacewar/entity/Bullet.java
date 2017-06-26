@@ -35,8 +35,8 @@ public class Bullet extends PhysicalEntity implements IDrawable, ICollideable, I
 
 	
 	@Override
-	public void draw(Graphics g, DrawingSystem system, Vec2 cam_centre) {
-		system.drawShape(tmpPoint, g, body, cam_centre);
+	public void draw(Graphics g, DrawingSystem system) {
+		system.drawShape(tmpPoint, g, body);
 	}
 
 

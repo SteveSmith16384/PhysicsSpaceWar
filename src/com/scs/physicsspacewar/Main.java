@@ -119,7 +119,9 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 							Vec2 dir = cg.getPosition().sub(affected.getPosition());
 							float dist = (float)Math.sqrt(dir.length()*cg.getGravityStrength());
 							//affected.applyLinearImpulse(dir.mul(1/dist));
-							affected.applyForceToCenter(dir.mul(10/dist));
+							//float force = 10/dist;
+							float force = (float)Math.pow(dist, -2); // todo - adjust by mass?
+							affected.applyForceToCenter(dir.mul(force));
 						}
 					}
 				}
@@ -134,6 +136,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 					IPlayerControllable id = (IPlayerControllable)e;
 					this.playerInputSystem.process(id);
 					anyAvatars = true;
+					this.drawingSystem.cam_centre = id.getPosition(); // todo - get average positions for multiple players
 				}
 			}
 
@@ -142,12 +145,6 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			while (collisions.isEmpty() == false) {
 				processCollision(collisions.remove(0));
 			}
-
-			// Position cam based on players
-			Vec2 cam_centre = new Vec2();
-			cam_centre.x = (Statics.WINDOW_WIDTH / 2);// / Statics.WORLD_TO_PIXELS);
-			cam_centre.y = (Statics.WINDOW_HEIGHT / 2);// / Statics.WORLD_TO_PIXELS);
-
 
 			// Draw screen
 			Graphics g = window.BS.getDrawGraphics();
@@ -160,7 +157,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			for (Entity e : this.entities) {
 				if (e instanceof IDrawable) {
 					IDrawable sprite = (IDrawable)e;
-					sprite.draw(g, drawingSystem, cam_centre);
+					sprite.draw(g, drawingSystem);
 				}
 				if (e instanceof IProcessable) {
 					IProcessable id = (IProcessable)e;
