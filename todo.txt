@@ -1,4 +1,11 @@
+https://codea.io/talk/discussion/3305/planet-physics-gravity
+
+
+
 TODO
+Shade centre of objects a darker  shade
+Small moon
+Draw background stars to show movement
 Get gameplay feel right
 Show jet
 Limit spin speed

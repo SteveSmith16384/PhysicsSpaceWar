@@ -24,7 +24,7 @@ public class DrawingSystem {
 
 	private float LOGICAL_TO_PIXELS = 3f;
 
-	public Vec2 cam_centre;
+	public Vec2 cam_centre = new Vec2();
 	private Stroke stroke;
 
 	public DrawingSystem() {
@@ -40,8 +40,8 @@ public class DrawingSystem {
 
 	private void getPixelPos(Point ret, Vec2 worldpos) {
 		//Vec2 worldpos = b.getWorldPoint(v);
-		int x1 = (int)((worldpos.x * LOGICAL_TO_PIXELS)-cam_centre.x + (Statics.WINDOW_WIDTH/2));
-		int y1 = (int)((worldpos.y * LOGICAL_TO_PIXELS)-cam_centre.y + (Statics.WINDOW_HEIGHT/2));
+		int x1 = (int)((worldpos.x-cam_centre.x) * LOGICAL_TO_PIXELS + (Statics.WINDOW_WIDTH/2));
+		int y1 = (int)((worldpos.y-cam_centre.y) * LOGICAL_TO_PIXELS + (Statics.WINDOW_HEIGHT/2));
 		//return new Point(x1, y1);
 		ret.x = x1;
 		ret.y = y1;
