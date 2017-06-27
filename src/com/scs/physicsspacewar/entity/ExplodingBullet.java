@@ -61,4 +61,5 @@ public class ExplodingBullet extends PhysicalEntity implements IDrawable, IProce
 		system.drawShape(tmpPoint, g, body);
 	}
 
+
 }

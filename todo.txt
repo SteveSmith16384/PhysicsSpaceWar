@@ -1,5 +1,16 @@
 https://codea.io/talk/discussion/3305/planet-physics-gravity
 
+GAME MODES
+Race
+Battle it out
+Co-op
+
+
+EXTRA
+	Stars
+Co-op mode
+Create testing arena when entitys can be added/removed
+	Homing missile
 
 
 TODO
@@ -13,10 +24,12 @@ Limit spin speed
 	Meteors
 	Shooting
 
+
 LATER
 Enemy bullets makes player go out of control
 Race mode
 Gun emplacements that shoot player
 zoom in/out with multiple players
 Space monster with "rope" tentacles
+Radar
 

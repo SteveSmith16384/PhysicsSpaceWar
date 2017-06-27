@@ -25,6 +25,7 @@ import ssmith.util.TSArrayList;
 
 import com.scs.physicsspacewar.entity.Entity;
 import com.scs.physicsspacewar.entity.PlayersShip;
+import com.scs.physicsspacewar.entity.Starfield;
 import com.scs.physicsspacewar.entity.components.IAffectedByGravity;
 import com.scs.physicsspacewar.entity.components.ICausesGravity;
 import com.scs.physicsspacewar.entity.components.ICollideable;
@@ -42,7 +43,7 @@ import com.scs.physicsspacewar.map.TestMap;
 public class Main implements ContactListener, NewControllerListener, KeyListener {
 
 	public World world;
-	private MainWindow window;
+	public MainWindow window;
 
 	private TSArrayList<Entity> entities;
 	private TSArrayList<ICausesGravity> gravityCausers;
@@ -117,11 +118,11 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 					for (ICausesGravity cg : this.gravityCausers) {
 						if (e != cg) {
 							Vec2 dir = cg.getPosition().sub(affected.getPosition());
-							float dist = (float)Math.sqrt(dir.length()*cg.getGravityStrength());
+							float dist = (float)Math.sqrt(dir.length()*cg.getMass());
 							//affected.applyLinearImpulse(dir.mul(1/dist));
 							//float force = 10/dist;
-							float force = (float)Math.pow(dist, -2); // todo - adjust by mass?
-							//force = force * 10f;
+							float force = (float)Math.pow(dist, -2);
+							force = force * (affected.getMass() * cg.getMass());  // adjust by mass?
 							affected.applyForceToCenter(dir.mul(force));
 						}
 					}
@@ -193,6 +194,8 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 		Vec2 gravity = new Vec2(0f, 0f);
 		world = new World(gravity);
 		world.setContactListener(this);
+		
+		this.addEntity(new Starfield(this));
 
 		level = new TestMap(this);//   AbstractLevel.GetLevel(levelNum, this);//new Level3(this);// 
 		level.createWorld(world, this);

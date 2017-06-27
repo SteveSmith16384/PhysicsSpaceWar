@@ -8,6 +8,8 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;
 
+import ssmith.util.Timer;
+
 import com.scs.physicsspacewar.BodyUserData;
 import com.scs.physicsspacewar.JBox2DFunctions;
 import com.scs.physicsspacewar.Main;
@@ -26,11 +28,12 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 
 	private static final int SHOT_INT = 2000;
 	public static final float SIZE = 4f;
-	//private static final float MAX_VELOCITY = 5;//7f;	
 
 	public int id;
 	private IInputDevice input;
 	private long lastShotTime;
+	private Timer jetTimer = new Timer(100);
+	private boolean isJetting = false;
 
 	public PlayersShip(Player player, Main main, World world, float x, float y) {
 		super(main, PlayersShip.class.getSimpleName());
@@ -63,11 +66,14 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 		}
 		
 		if (input.isJumpPressed()) {
+			isJetting = true;
 			Vec2 force = new Vec2();
 			force.y = (float)Math.cos(body.getAngle()) * -1;
 			force.x = (float)Math.sin(body.getAngle());
 			force.mulLocal(Statics.JET_FORCE);
 			body.applyForceToCenter(force);
+		} else {
+			isJetting = false;
 		}
 		
 		if (input.isFirePressed()) {
@@ -126,6 +132,10 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 
 	@Override
 	public void preprocess(long interpol) {
+		if (isJetting && jetTimer.hasHit(interpol)) {
+			Particle p = new Particle(main, this.getPosition());
+			main.addEntity(p);
+		}
 
 	}
 
@@ -154,6 +164,7 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 		main.removeEntity(this);
 		
 	}
+
 
 
 }

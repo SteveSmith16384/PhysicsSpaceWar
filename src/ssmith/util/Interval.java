@@ -4,7 +4,7 @@ package ssmith.util;
  * @author Stephen Smith
  *
  */
-public class Interval {
+public class Interval { // todo - rename to RealtimeInterval
 
 	private long next_check_time, duration;
 

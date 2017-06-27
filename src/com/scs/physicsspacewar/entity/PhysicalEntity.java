@@ -41,4 +41,10 @@ public abstract class PhysicalEntity extends Entity implements IDrawable, IGetPo
 		world.destroyBody(body);
 	}
 
+
+	public float getMass() {
+		return body.getMass();
+	}
+
+
 }

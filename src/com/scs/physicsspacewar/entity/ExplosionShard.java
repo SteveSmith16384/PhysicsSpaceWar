@@ -54,4 +54,6 @@ public class ExplosionShard extends PhysicalEntity implements IDrawable, IProces
 		system.drawShape(tmpPoint, g, body);
 	}
 
+
+
 }
