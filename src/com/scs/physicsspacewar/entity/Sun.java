@@ -20,7 +20,7 @@ public class Sun extends PhysicalEntity implements IDrawable, ICausesGravity {
 		super(main, "Sun");
 		
 		BodyUserData bud = new BodyUserData("Sun", Color.yellow, this);
-		body = JBox2DFunctions.AddCircle(bud, world, x, y, rad, BodyType.DYNAMIC, .1f, .2f, 10);
+		body = JBox2DFunctions.AddCircle(bud, world, x, y, rad, BodyType.DYNAMIC, .1f, .2f, 10f);
 	}
 
 
@@ -37,9 +37,5 @@ public class Sun extends PhysicalEntity implements IDrawable, ICausesGravity {
 	}
 
 
-	@Override
-	public float getGravityStrength() {
-		return .5f;
-	}
 
 }

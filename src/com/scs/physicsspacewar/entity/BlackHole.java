@@ -1,6 +1,8 @@
 package com.scs.physicsspacewar.entity;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 
 import org.jbox2d.common.Vec2;
 
@@ -10,19 +12,26 @@ import com.scs.physicsspacewar.entity.systems.DrawingSystem;
 
 public class BlackHole extends PhysicalEntity implements ICausesGravity {
 
-	public BlackHole(Main _main) {
+	private Point tmp = new Point();
+	private Vec2 worldpos;
+
+	public BlackHole(Main _main, float x, float y) {
 		super(_main, "BlockHole");
+
+		worldpos = new Vec2(x, y);
 	}
+
 
 	@Override
 	public void draw(Graphics g, DrawingSystem system) {
-		// Do nothing
-		
+		system.drawDot(tmp, g, worldpos, Color.white);
+
+
 	}
 
 	@Override
-	public float getGravityStrength() {
-		return 1;
+	public float getMass() {
+		return 10000;
 	}
 
 }

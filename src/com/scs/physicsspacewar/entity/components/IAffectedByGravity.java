@@ -4,7 +4,9 @@ import org.jbox2d.common.Vec2;
 
 public interface IAffectedByGravity extends IGetPosition {
 
+	float getMass();
+	
 	void applyForceToCenter(Vec2 vec);
 	
-	void applyLinearImpulse(Vec2 vec); // todo - remove
+	//void applyLinearImpulse(Vec2 vec); // todo - remove
 }
