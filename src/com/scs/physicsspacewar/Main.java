@@ -122,7 +122,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 							//affected.applyLinearImpulse(dir.mul(1/dist));
 							//float force = 10/dist;
 							float force = (float)Math.pow(dist, -2);
-							force = force * (affected.getMass() * cg.getMass());  // adjust by mass?
+							force = force * (affected.getMass() * cg.getMass()) * 2;  // adjust by mass?
 							affected.applyForceToCenter(dir.mul(force));
 						}
 					}

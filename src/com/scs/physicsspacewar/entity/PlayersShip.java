@@ -28,6 +28,7 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 
 	private static final int SHOT_INT = 2000;
 	public static final float SIZE = 4f;
+	public static final float MAX_ANGLE_VEL = 4f; // todo - use this
 
 	public int id;
 	private IInputDevice input;
@@ -43,8 +44,8 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 
 		BodyUserData bud = new BodyUserData("Player_Body", Color.black, this);
 		Vec2[] vertices = new Vec2[3];
-		vertices[0] = new Vec2(SIZE/2, 0);
-		vertices[1] = new Vec2(SIZE, SIZE);
+		vertices[0] = new Vec2(SIZE/4, 0);
+		vertices[1] = new Vec2(SIZE/2, SIZE);
 		vertices[2] = new Vec2(0, SIZE);
 		body = JBox2DFunctions.CreateComplexShape(bud, world, vertices, BodyType.DYNAMIC, .2f, .3f, 10f);
 		body.setTransform(new Vec2(x, y), 1);
@@ -60,9 +61,10 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 	public void processInput() {
 		if (input.isLeftPressed()) {
 			body.applyTorque(-Statics.TURN_TORQUE);
-			//if (body.getAngularVelocity() )
+			Statics.p("Ang vel: " + body.getAngularVelocity() );
 		} else if (input.isRightPressed()) {
 			body.applyTorque(Statics.TURN_TORQUE);		
+			Statics.p("Ang vel: " + body.getAngularVelocity() );
 		}
 		
 		if (input.isJumpPressed()) {
@@ -86,7 +88,7 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 				startOffset.normalize();
 				startOffset.mulLocal(SIZE*2);
 				
-				Vec2 force = dir.mul(1600*3f);
+				Vec2 force = dir.mul(1600*1f);
 				//dir.set(body.getLinearVelocity()); // todo - add our speed/dir
 
 				Bullet bullet = new Bullet(main, this, this.body.getWorldCenter().add(startOffset), force);

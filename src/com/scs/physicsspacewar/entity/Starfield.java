@@ -12,7 +12,7 @@ import com.scs.physicsspacewar.entity.systems.DrawingSystem;
 
 public class Starfield extends Entity implements IDrawable {
 
-	private static final int SPACING = 20;
+	private static final int SPACING = 50; // todo - adjust by zoom
 
 	private Vec2 prevCamPos = new Vec2();
 
@@ -30,7 +30,7 @@ public class Starfield extends Entity implements IDrawable {
 			for (int x=0 ; x<main.window.getWidth() ; x+= SPACING) {
 				int offx = (int)offset.x % SPACING;
 				int offy = (int)offset.y % SPACING;
-				g.drawRect(x+offx, y+offy, 2, 2);
+				g.drawRect(x+offx, y+offy, 1, 1);
 			}			
 		}
 

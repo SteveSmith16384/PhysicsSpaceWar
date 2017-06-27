@@ -53,4 +53,9 @@ public class Bullet extends PhysicalEntity implements IDrawable, ICollideable, I
 	}
 
 
+	@Override
+	public float getMass() {
+		return super.getMass() * 10;
+	}
+
 }

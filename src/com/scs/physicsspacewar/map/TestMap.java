@@ -15,14 +15,15 @@ import com.scs.physicsspacewar.entity.Sun;
 public class TestMap extends AbstractMap {
 
 	private Interval meteorInt = new Interval(3000);
-
+	private boolean missile = false;
+	
 	public TestMap(Main main) {
 		super(main);
 	}
 
 
 	public void createWorld(World world, Main main) {
-		Sun sun = new Sun(main, world, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL/2, 50);
+		Sun sun = new Sun(main, world, Statics.WORLD_WIDTH_LOGICAL/3, Statics.WORLD_HEIGHT_LOGICAL/3, 50);
 		main.addEntity(sun);
 
 	}
@@ -40,7 +41,7 @@ public class TestMap extends AbstractMap {
 		if (meteorInt.hitInterval()) {
 			Vec2 pos = new Vec2(Statics.WORLD_WIDTH_LOGICAL * .75f, Statics.WORLD_HEIGHT_LOGICAL * 0.75f);
 			Vec2 dir = new Vec2(-40000, 0);
-			Meteor met = new Meteor(main, pos, dir);
+			//Meteor met = new Meteor(main, pos, dir);
 			//main.addEntity(met);
 		}
 	}

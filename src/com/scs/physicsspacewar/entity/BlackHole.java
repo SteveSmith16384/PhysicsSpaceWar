@@ -29,6 +29,7 @@ public class BlackHole extends PhysicalEntity implements ICausesGravity {
 
 	}
 
+	
 	@Override
 	public float getMass() {
 		return 10000;
