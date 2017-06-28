@@ -4,16 +4,16 @@ package ssmith.util;
  * @author Stephen Smith
  *
  */
-public class Interval { // todo - rename to RealtimeInterval
+public class RealtimeInterval {
 
 	private long next_check_time, duration;
 
-	public Interval(long duration) {
+	public RealtimeInterval(long duration) {
 		this(duration, false);
 	}
 	
 	
-	public Interval(long duration, boolean fire_now) {
+	public RealtimeInterval(long duration, boolean fire_now) {
 		super();
 		this.duration = duration;
 		if (fire_now) {

@@ -58,7 +58,7 @@ public class ExplodingBullet extends PhysicalEntity implements IDrawable, IProce
 
 	@Override
 	public void draw(Graphics g, DrawingSystem system) {
-		system.drawShape(tmpPoint, g, body);
+		system.drawShape(tmpPoint, g, body, false);
 	}
 
 

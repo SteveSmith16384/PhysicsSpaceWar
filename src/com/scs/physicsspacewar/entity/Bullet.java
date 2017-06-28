@@ -14,38 +14,42 @@ import com.scs.physicsspacewar.entity.components.IAffectedByGravity;
 import com.scs.physicsspacewar.entity.components.ICollideable;
 import com.scs.physicsspacewar.entity.components.IDamagable;
 import com.scs.physicsspacewar.entity.components.IDrawable;
+import com.scs.physicsspacewar.entity.components.IProcessable;
 import com.scs.physicsspacewar.entity.systems.DrawingSystem;
 
-public class Bullet extends PhysicalEntity implements IDrawable, ICollideable, IAffectedByGravity {
+public class Bullet extends PhysicalEntity implements IDrawable, ICollideable, IAffectedByGravity, IProcessable {
 	
 	private Entity shooter;
+	private long timeUntilDeadlyToShooter;
 	
 	public Bullet(Main main, Entity shooter_, Vec2 pos, Vec2 force) {
 		super(main, Bullet.class.getSimpleName());
 
 		shooter = shooter_;
 		
-		BodyUserData bud = new BodyUserData("Bullet", Color.darkGray, this); // todo - make yellow
+		BodyUserData bud = new BodyUserData("Bullet", Color.red, this);
 		body = JBox2DFunctions.AddCircle(bud, main.world, pos.x, pos.y, .1f, BodyType.DYNAMIC, .1f, .2f, .1f);
 		
 		body.applyLinearImpulse(force, Statics.VEC_CENTRE, true);
 		//body.applyForceToCenter(force);//, v);
+		
+		timeUntilDeadlyToShooter = 2000;
 
 	}
 
 	
 	@Override
 	public void draw(Graphics g, DrawingSystem system) {
-		system.drawShape(tmpPoint, g, body);
+		system.drawShape(tmpPoint, g, body, false);
 	}
 
 
 	@Override
 	public void collided(Entity other) {
-		if (other != shooter) {
+		if (other != shooter || timeUntilDeadlyToShooter < 0) {
 			if (other instanceof IDamagable) {
 				IDamagable id = (IDamagable)other;
-				id.damage(1f);
+				id.damage(1);
 			}
 			main.removeEntity(this);
 		}
@@ -55,7 +59,19 @@ public class Bullet extends PhysicalEntity implements IDrawable, ICollideable, I
 
 	@Override
 	public float getMass() {
-		return super.getMass() * 10;
+		return super.getMass() * 5;//10;
+	}
+
+
+	@Override
+	public void preprocess(long interpol) {
+		this.timeUntilDeadlyToShooter -= interpol;
+		
+	}
+
+
+	@Override
+	public void postprocess(long interpol) {
 	}
 
 }

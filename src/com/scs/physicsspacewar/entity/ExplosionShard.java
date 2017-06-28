@@ -51,7 +51,7 @@ public class ExplosionShard extends PhysicalEntity implements IDrawable, IProces
 
 	@Override
 	public void draw(Graphics g, DrawingSystem system) {
-		system.drawShape(tmpPoint, g, body);
+		system.drawShape(tmpPoint, g, body, false);
 	}
 
 

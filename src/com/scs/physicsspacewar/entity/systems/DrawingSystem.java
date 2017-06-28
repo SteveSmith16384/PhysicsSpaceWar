@@ -22,27 +22,39 @@ import com.scs.physicsspacewar.entity.components.IDrawable;
 
 public class DrawingSystem {
 
-	private float LOGICAL_TO_PIXELS = 3f;
+	private static final float OUTER = 0.2f;
+	private static final float INNER = 0.22f; // 0.3f
+	private static final float ZOOM_IN_SPEED = 1.01f;
+	private static final float ZOOM_OUT_SPEED = .98f; // Need to zoom out fast
 
-	public Vec2 cam_centre = new Vec2();
+	public float currZoom = 3f;
+	public Vec2 cam_centre_logical = new Vec2();
 	private Stroke stroke;
+	private boolean zoomIn, zoomOut;
 
 	public DrawingSystem() {
 		stroke = new BasicStroke(4);
 	}
 
 
-	public void process(Graphics g, IDrawable sprite) {
-		sprite.draw(g, this);
-
+	public void startOfDrawing() {
+		zoomIn = false;
+		zoomOut = false;
 	}
 
 
-	private void getPixelPos(Point ret, Vec2 worldpos) {
-		//Vec2 worldpos = b.getWorldPoint(v);
-		int x1 = (int)((worldpos.x-cam_centre.x) * LOGICAL_TO_PIXELS + (Statics.WINDOW_WIDTH/2));
-		int y1 = (int)((worldpos.y-cam_centre.y) * LOGICAL_TO_PIXELS + (Statics.WINDOW_HEIGHT/2));
-		//return new Point(x1, y1);
+	public void endOfDrawing() {
+		if (this.zoomOut) {
+			// todo - re-add currZoom *= ZOOM_OUT_SPEED;
+		} else if (this.zoomIn) {
+			// todo - re-add currZoom *= ZOOM_IN_SPEED;
+		}
+	}
+
+
+	public void getPixelPos(Point ret, Vec2 worldpos) {
+		int x1 = (int)((worldpos.x-cam_centre_logical.x) * currZoom + (Statics.WINDOW_WIDTH/2));
+		int y1 = (int)((worldpos.y-cam_centre_logical.y) * currZoom + (Statics.WINDOW_HEIGHT/2));
 		ret.x = x1;
 		ret.y = y1;
 	}
@@ -68,16 +80,15 @@ public class DrawingSystem {
 	}
 
 
-	public void drawShape(Point tmp, Graphics g, Body b) {
+	public void drawShape(Point tmp, Graphics g, Body b, boolean mustBeOnscreen) {
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setStroke(stroke);
 
-		/*BodyUserData userdata = (BodyUserData)b.getUserData();
-		if (userdata != null) {
-			g.setColor(userdata.col);
-		} else {
-			g.setColor(Color.gray);
-		}*/
+		if (mustBeOnscreen) {
+			this.getPixelPos(tmp, b.getWorldCenter());
+			zoomOut |= tmp.x < Statics.WINDOW_WIDTH * OUTER || tmp.x > Statics.WINDOW_WIDTH * (1f-OUTER) || tmp.y < Statics.WINDOW_HEIGHT * OUTER || tmp.y > Statics.WINDOW_HEIGHT * (1f-OUTER);
+			zoomIn |= (tmp.x > Statics.WINDOW_WIDTH * INNER && tmp.x < Statics.WINDOW_WIDTH * (1f-INNER) && tmp.y > Statics.WINDOW_HEIGHT * INNER && tmp.y < Statics.WINDOW_HEIGHT * (1f-INNER));
+		}
 
 		Fixture f = b.getFixtureList();
 		while (f != null) {
@@ -86,7 +97,7 @@ public class DrawingSystem {
 			if (userdata != null && userdata.col != null) {
 				col = userdata.col;
 			}
-			Color darker = col.darker();
+			Color darker = col.darker().darker();
 
 			if (f.getShape() instanceof PolygonShape) {
 				Polygon polygon = new Polygon();
@@ -120,7 +131,7 @@ public class DrawingSystem {
 				g.setColor(col);
 				g.drawLine(p.x, p.y, tmp.x, tmp.y);
 
-				/*todo } else if (f.getShape() instanceof ChainShape) {
+				/*} else if (f.getShape() instanceof ChainShape) {
 			ChainShape shape2 = (ChainShape)f.getShape();
 			EdgeShape shape = new EdgeShape();
 			for (int i=0 ; i<shape2.getChildCount() ; i++) {
@@ -141,7 +152,7 @@ public class DrawingSystem {
 				CircleShape shape2 = (CircleShape)f.getShape();
 				Vec2 worldpos = b.getPosition();
 				getPixelPos(tmp, worldpos);
-				int rad = (int)(shape2.getRadius() * LOGICAL_TO_PIXELS);
+				int rad = (int)(shape2.getRadius() * currZoom);
 				if (rad < 1) {
 					rad = 1;
 				}

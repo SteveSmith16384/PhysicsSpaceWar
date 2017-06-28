@@ -28,13 +28,14 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 
 	private static final int SHOT_INT = 2000;
 	public static final float SIZE = 4f;
-	public static final float MAX_ANGLE_VEL = 4f; // todo - use this
+	public static final float MAX_ANGLE_VEL = 4f;
 
 	public int id;
 	private IInputDevice input;
 	private long lastShotTime;
 	private Timer jetTimer = new Timer(100);
 	private boolean isJetting = false;
+	public int health = 3;
 
 	public PlayersShip(Player player, Main main, World world, float x, float y) {
 		super(main, PlayersShip.class.getSimpleName());
@@ -60,13 +61,17 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 	@Override
 	public void processInput() {
 		if (input.isLeftPressed()) {
-			body.applyTorque(-Statics.TURN_TORQUE);
+			if (body.getAngularVelocity() > -MAX_ANGLE_VEL) {
+				body.applyTorque(-Statics.TURN_TORQUE);
+			}
 			Statics.p("Ang vel: " + body.getAngularVelocity() );
 		} else if (input.isRightPressed()) {
-			body.applyTorque(Statics.TURN_TORQUE);		
+			if (body.getAngularVelocity() < MAX_ANGLE_VEL) {
+				body.applyTorque(Statics.TURN_TORQUE);		
+			}
 			Statics.p("Ang vel: " + body.getAngularVelocity() );
 		}
-		
+
 		if (input.isJumpPressed()) {
 			isJetting = true;
 			Vec2 force = new Vec2();
@@ -77,17 +82,17 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 		} else {
 			isJetting = false;
 		}
-		
+
 		if (input.isFirePressed()) {
 			if (System.currentTimeMillis() > lastShotTime + SHOT_INT) {
 				float dirx = (float)Math.sin(this.body.getAngle());
 				float diry = (float)Math.cos(this.body.getAngle());
 				Vec2 dir = new Vec2(dirx, diry*-1);
-				
+
 				Vec2 startOffset = dir.clone();
 				startOffset.normalize();
 				startOffset.mulLocal(SIZE*2);
-				
+
 				Vec2 force = dir.mul(1600*1f);
 				//dir.set(body.getLinearVelocity()); // todo - add our speed/dir
 
@@ -102,7 +107,7 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 
 	@Override
 	public void draw(Graphics g, DrawingSystem system) {
-		system.drawShape(tmpPoint, g, body);
+		system.drawShape(tmpPoint, g, body, true);
 	}
 
 
@@ -157,16 +162,18 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 				main.restartAvatar(this);
 			}
 		}*/
-		
+
 	}
 
 
 	@Override
-	public void damage(float amt) {
-		main.removeEntity(this);
-		
+	public void damage(int amt) {
+		this.health -= amt;
+		Statics.p("Player damaged " + amt);
+		if (this.health <= 0) {
+			main.removeEntity(this);
+		}
 	}
-
 
 
 }

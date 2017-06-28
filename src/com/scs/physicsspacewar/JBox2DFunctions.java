@@ -233,4 +233,9 @@ public class JBox2DFunctions {
 		//world.setpa
 	}
 	
+	
+	public static boolean canSee(Vec2 start, Vec2 end)  {
+		return false; // todo
+	}
+	
 }

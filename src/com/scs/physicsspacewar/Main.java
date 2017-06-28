@@ -24,12 +24,14 @@ import ssmith.awt.ImageCache;
 import ssmith.util.TSArrayList;
 
 import com.scs.physicsspacewar.entity.Entity;
+import com.scs.physicsspacewar.entity.HomingMissile;
 import com.scs.physicsspacewar.entity.PlayersShip;
 import com.scs.physicsspacewar.entity.Starfield;
 import com.scs.physicsspacewar.entity.components.IAffectedByGravity;
 import com.scs.physicsspacewar.entity.components.ICausesGravity;
 import com.scs.physicsspacewar.entity.components.ICollideable;
 import com.scs.physicsspacewar.entity.components.IDrawable;
+import com.scs.physicsspacewar.entity.components.IGetPosition;
 import com.scs.physicsspacewar.entity.components.IPlayerControllable;
 import com.scs.physicsspacewar.entity.components.IProcessable;
 import com.scs.physicsspacewar.entity.systems.DrawingSystem;
@@ -46,6 +48,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 	public MainWindow window;
 
 	private TSArrayList<Entity> entities;
+	private ArrayList<Entity> playerShips;
 	private TSArrayList<ICausesGravity> gravityCausers;
 	private List<IInputDevice> newControllers = new ArrayList<>();
 	private List<Player> players = new ArrayList<>();
@@ -55,7 +58,6 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 	private List<Contact> collisions = new LinkedList<>();
 	private AbstractMap level;
 	private boolean restartLevel = false;
-	private int levelNum = 1;
 
 
 	public static void main(String[] args) {
@@ -105,8 +107,6 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			this.entities.refresh();
 			this.gravityCausers.refresh();
 
-			boolean anyAvatars = false;
-
 			// Preprocess
 			for (Entity e : this.entities) {
 				if (e instanceof IProcessable) {
@@ -119,10 +119,8 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 						if (e != cg) {
 							Vec2 dir = cg.getPosition().sub(affected.getPosition());
 							float dist = (float)Math.sqrt(dir.length()*cg.getMass());
-							//affected.applyLinearImpulse(dir.mul(1/dist));
-							//float force = 10/dist;
 							float force = (float)Math.pow(dist, -2);
-							force = force * (affected.getMass() * cg.getMass()) * 2;  // adjust by mass?
+							force = force * (affected.getMass() * cg.getMass()) * 2; // adjust by mass
 							affected.applyForceToCenter(dir.mul(force));
 						}
 					}
@@ -133,13 +131,29 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			if (DeviceThread.USE_CONTROLLERS) {
 				Controllers.checkControllers();
 			}
-			for (Entity e : this.entities) {
-				if (e instanceof IPlayerControllable) {
-					IPlayerControllable id = (IPlayerControllable)e;
-					this.playerInputSystem.process(id);
-					anyAvatars = true;
-					this.drawingSystem.cam_centre = id.getPosition(); // todo - get average positions for multiple players
-				}
+
+			Vec2 newCamPos = new Vec2();
+			for (Entity e : this.playerShips) {
+				//if (e instanceof IPlayerControllable) {
+				IPlayerControllable id = (IPlayerControllable)e;
+				this.playerInputSystem.process(id);
+				newCamPos.x += id.getPosition().x;
+				newCamPos.y += id.getPosition().y;
+				//numAvatars++;
+				//}
+			}
+			if (playerShips.size() > 0) {
+				newCamPos.x /= playerShips.size();
+				newCamPos.y /= playerShips.size();
+
+				this.drawingSystem.cam_centre_logical.x = newCamPos.x;// * this.drawingSystem.currZoom;
+				this.drawingSystem.cam_centre_logical.y = newCamPos.y;// * this.drawingSystem.currZoom;
+
+				/*Point pxlpos = new Point();
+				this.drawingSystem.getPixelPos(pxlpos, newCamPos);
+				//this.drawingSystem.cam_centre = id.getPosition();
+				this.drawingSystem.cam_centre.x = pxlpos.x;
+				this.drawingSystem.cam_centre.y = pxlpos.y;*/
 			}
 
 			collisions.clear();
@@ -155,7 +169,10 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 
 			g.setColor(Color.white);
 			//g.drawString("Press ESC to Restart", 20, 50);
+			g.drawString("Num Entities: " + this.entities.size(), 20, 70);
+			g.drawString("Zoom: " + this.drawingSystem.currZoom, 20, 90);
 
+			drawingSystem.startOfDrawing();
 			for (Entity e : this.entities) {
 				if (e instanceof IDrawable) {
 					IDrawable sprite = (IDrawable)e;
@@ -166,8 +183,9 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 					id.postprocess(interpol);
 				}
 			}
+			drawingSystem.endOfDrawing();
 
-			if (this.players.size() > 0 && anyAvatars == false) {
+			if (this.players.size() > 0 && playerShips.isEmpty()) {
 				this.nextLevel();
 			} else if (restartLevel) {
 				restartLevel = false;
@@ -190,12 +208,13 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 	private void startLevel() {
 		this.entities = new TSArrayList<Entity>();
 		this.gravityCausers = new TSArrayList<ICausesGravity>();
+		playerShips = new ArrayList<Entity>();
 
 		Vec2 gravity = new Vec2(0f, 0f);
 		world = new World(gravity);
 		world.setContactListener(this);
-		
-		this.addEntity(new Starfield(this));
+
+		//todo - re-add this.addEntity(new Starfield(this));
 
 		level = new TestMap(this);//   AbstractLevel.GetLevel(levelNum, this);//new Level3(this);// 
 		level.createWorld(world, this);
@@ -314,6 +333,9 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			ICausesGravity cg = (ICausesGravity)b;
 			this.gravityCausers.remove(cg);
 		}
+		if (b instanceof IPlayerControllable) {
+			this.playerShips.remove(b);
+		}
 	}
 
 
@@ -349,7 +371,6 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 
 
 	public void nextLevel() {
-		levelNum++;
 		this.startLevel();
 	}
 
@@ -365,6 +386,9 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			if (o instanceof ICausesGravity) {
 				ICausesGravity cg = (ICausesGravity)o;
 				this.gravityCausers.add(cg);
+			}
+			if (o instanceof IPlayerControllable) {
+				this.playerShips.add(o);
 			}
 		}
 	}
@@ -383,6 +407,11 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			//this.dispose();
 			restartLevel = true;
 			//startLevel();
+		} else if (ke.getKeyCode() == KeyEvent.VK_1) {
+			IGetPosition ig = (IGetPosition)this.playerShips.get(0);
+			Vec2 pos = new Vec2();
+			pos.x += 50;
+			HomingMissile m = new HomingMissile(this, pos, ig);
 		}
 
 	}

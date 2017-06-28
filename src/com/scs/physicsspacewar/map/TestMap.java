@@ -5,7 +5,7 @@ import java.awt.Point;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
-import ssmith.util.Interval;
+import ssmith.util.RealtimeInterval;
 
 import com.scs.physicsspacewar.Main;
 import com.scs.physicsspacewar.Statics;
@@ -14,7 +14,7 @@ import com.scs.physicsspacewar.entity.Sun;
 
 public class TestMap extends AbstractMap {
 
-	private Interval meteorInt = new Interval(3000);
+	private RealtimeInterval meteorInt = new RealtimeInterval(3000);
 	private boolean missile = false;
 	
 	public TestMap(Main main) {

@@ -8,5 +8,4 @@ public interface IAffectedByGravity extends IGetPosition {
 	
 	void applyForceToCenter(Vec2 vec);
 	
-	//void applyLinearImpulse(Vec2 vec); // todo - remove
 }

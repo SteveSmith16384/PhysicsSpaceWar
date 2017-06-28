@@ -40,7 +40,7 @@ public class HomingMissile extends PhysicalEntity implements IDrawable, ICollide
 
 	@Override
 	public void draw(Graphics g, DrawingSystem system) {
-		system.drawShape(tmpPoint, g, body);
+		system.drawShape(tmpPoint, g, body, true);
 	}
 
 
@@ -48,7 +48,7 @@ public class HomingMissile extends PhysicalEntity implements IDrawable, ICollide
 	public void collided(Entity other) {
 		if (other instanceof IDamagable) {
 			IDamagable id = (IDamagable)other;
-			id.damage(1f);
+			id.damage(1);
 		}
 		main.removeEntity(this);
 

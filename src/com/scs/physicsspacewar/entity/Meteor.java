@@ -35,7 +35,7 @@ public class Meteor extends PhysicalEntity implements IDrawable, ICollideable, I
 
 	@Override
 	public void draw(Graphics g, DrawingSystem system) {
-		system.drawShape(tmpPoint, g, body);
+		system.drawShape(tmpPoint, g, body, false);
 	}
 
 
@@ -43,7 +43,7 @@ public class Meteor extends PhysicalEntity implements IDrawable, ICollideable, I
 	public void collided(Entity other) {
 		if (other instanceof IDamagable) {
 			IDamagable id = (IDamagable)other;
-			id.damage(1f);
+			id.damage(1);
 		}
 
 	}

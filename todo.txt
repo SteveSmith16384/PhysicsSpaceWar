@@ -1,24 +1,24 @@
 https://codea.io/talk/discussion/3305/planet-physics-gravity
 
 TODO
-Make center even darker
-Bullets hit own player after a few seconds
-Copy in new DeviceThread
-zoom in/out with multiple players
-Show num entities in HUD
-Stars not working
-Create testing arena when entitys can be added/removed
+Mismatch between players and stuff to keep in view
+Show players health on screen
+get winner
+Create edges to the map
+Max zoom out
+	zoom in/out with multiple players
+	Make center even darker
+	Bullets hit own player after a few seconds
+	Show num entities in HUD
+	Stars not working
 	Homing missile
 Small moon
-	Get gameplay feel right
-Show jet
-Limit spin speed
-	Create camera
+	Limit spin speed
 	Meteors
-	Shooting
 
 
 LATER
+Copy in new DeviceThread from multiplayer platformer
 Enemy bullets makes player go out of control
 Race mode
 Gun emplacements that shoot player
