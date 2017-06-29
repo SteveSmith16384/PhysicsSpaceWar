@@ -7,38 +7,59 @@ import javax.swing.JFrame;
 
 public class KeyboardInput implements IInputDevice, KeyListener {
 
-	private volatile boolean left, right, jump, fire;
+	public static final int KEYBOARD1_ID = -1;
+	public static final int KEYBOARD2_ID = -2;
+	
+	private volatile boolean left, right, up, down, fire;
+	private boolean lastMoveWasLeft = false;
 	private int id;
 
 	public KeyboardInput(JFrame frame, int _id) {
 		super();
 
 		id = _id;
+
+		if (id >= 0) {
+			throw new RuntimeException("Invalid keyboard ID - must be < 0");
+		}
+		
 		frame.addKeyListener(this);
 	}
 
 
 	@Override
 	public boolean isLeftPressed() {
-		/*if (left) {
+		if (left) {
 			lastMoveWasLeft = true;
-		}*/
+		}
 		return left;
 	}
 
 
 	@Override
 	public boolean isRightPressed() {
-		/*if (right) {
+		if (right) {
 			lastMoveWasLeft = false;
-		}*/
+		}
 		return right;
 	}
 
 
 	@Override
-	public boolean isJumpPressed() {
-		return jump;
+	public boolean isUpPressed() {
+		return up;
+	}
+
+
+	@Override
+	public boolean isDownPressed() {
+		return down;
+	}
+
+
+	@Override
+	public int getAngle() {
+		return lastMoveWasLeft ? 210: 330;
 	}
 
 
@@ -50,7 +71,7 @@ public class KeyboardInput implements IInputDevice, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent ke) {
-		if (this.id == 1) {
+		if (this.id == KEYBOARD1_ID) {
 			switch (ke.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
 				left = true;
@@ -61,15 +82,19 @@ public class KeyboardInput implements IInputDevice, KeyListener {
 				break;
 
 			case KeyEvent.VK_UP:
-				//up = true;
-				jump = true;
+				up = true;
+				break;
+
+			case KeyEvent.VK_DOWN:
+				down = true;
 				break;
 
 			case KeyEvent.VK_CONTROL:
 				fire = true;
+				//firePressedTime = System.currentTimeMillis();
 				break;
 			}
-		} else if (id == 2) {
+		} else if (id == KEYBOARD2_ID) {
 			switch (ke.getKeyCode()) {
 			case KeyEvent.VK_A:
 				left = true;
@@ -80,15 +105,21 @@ public class KeyboardInput implements IInputDevice, KeyListener {
 				break;
 
 			case KeyEvent.VK_W:
-				//up = true;
-				jump = true;
+				up = true;
+				break;
+
+			case KeyEvent.VK_S:
+				down = true;
 				break;
 
 			case KeyEvent.VK_SPACE:
 				fire = true;
+				//firePressedTime = System.currentTimeMillis();
 				break;
 			}
 
+		} else {
+			throw new RuntimeException("Invalid keyboard ID: " + id);
 		}
 
 	}
@@ -96,7 +127,7 @@ public class KeyboardInput implements IInputDevice, KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent ke) {
-		if (this.id == 1) {
+		if (this.id == KEYBOARD1_ID) {
 			switch (ke.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
 				left = false;
@@ -107,15 +138,21 @@ public class KeyboardInput implements IInputDevice, KeyListener {
 				break;
 
 			case KeyEvent.VK_UP:
-				jump = false;
+				up = false;
+				break;
+
+			case KeyEvent.VK_DOWN:
+				down = false;
 				break;
 
 			case KeyEvent.VK_CONTROL:
 				fire = false;
+				//this.duration = System.currentTimeMillis() - this.firePressedTime;
 				break;
+
 			}
 
-		} else if (id == 2) {
+		} else if (id == KEYBOARD2_ID) {
 			switch (ke.getKeyCode()) {
 			case KeyEvent.VK_A:
 				left = false;
@@ -126,12 +163,16 @@ public class KeyboardInput implements IInputDevice, KeyListener {
 				break;
 
 			case KeyEvent.VK_W:
-				//up = false;
-				jump = false;
+				up = false;
+				break;
+
+			case KeyEvent.VK_S:
+				down = false;
 				break;
 
 			case KeyEvent.VK_SPACE:
 				fire = false;
+				//firePressedTime = System.currentTimeMillis();
 				break;
 			}
 
@@ -148,6 +189,18 @@ public class KeyboardInput implements IInputDevice, KeyListener {
 	@Override
 	public float getStickDistance() {
 		return 1;
+	}
+
+
+	@Override
+	public int getID() {
+		return id;
+	}
+
+
+	@Override
+	public String toString() {
+		return "KeyboardInput:" + id;
 	}
 
 }

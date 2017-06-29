@@ -1,25 +1,18 @@
-https://codea.io/talk/discussion/3305/planet-physics-gravity
-
 TODO
-Mismatch between players and stuff to keep in view
-Show players health on screen
-get winner
-Create edges to the map
-Max zoom out
-	zoom in/out with multiple players
-	Make center even darker
+Get moons to orbit the sun
+	Loop around world
+	Fixtures disappearing after collision? 
+	get winner
 	Bullets hit own player after a few seconds
-	Show num entities in HUD
-	Stars not working
+	Stars not quite right
 	Homing missile
-Small moon
-	Limit spin speed
 	Meteors
+Enemy bullets makes player go out of control
 
 
 LATER
-Copy in new DeviceThread from multiplayer platformer
-Enemy bullets makes player go out of control
+Use Iterator instead?
+Show players health on screen
 Race mode
 Gun emplacements that shoot player
 Space monster with "rope" tentacles

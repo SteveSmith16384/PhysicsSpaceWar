@@ -25,9 +25,11 @@ public class DrawingSystem {
 	private static final float OUTER = 0.2f;
 	private static final float INNER = 0.22f; // 0.3f
 	private static final float ZOOM_IN_SPEED = 1.01f;
-	private static final float ZOOM_OUT_SPEED = .98f; // Need to zoom out fast
+	private static final float ZOOM_OUT_SPEED = .99f;
+	private static final float MAX_ZOOM_IN = 3f;
+	private static final float MAX_ZOOM_OUT = .5f;
 
-	public float currZoom = 3f;
+	public float currZoom = MAX_ZOOM_OUT;
 	public Vec2 cam_centre_logical = new Vec2();
 	private Stroke stroke;
 	private boolean zoomIn, zoomOut;
@@ -37,7 +39,7 @@ public class DrawingSystem {
 	}
 
 
-	public void startOfDrawing() {
+	public void startOfDrawing(Graphics g) {
 		zoomIn = false;
 		zoomOut = false;
 	}
@@ -45,9 +47,13 @@ public class DrawingSystem {
 
 	public void endOfDrawing() {
 		if (this.zoomOut) {
-			currZoom *= ZOOM_OUT_SPEED;
+			if (this.currZoom > MAX_ZOOM_OUT) {
+				currZoom *= ZOOM_OUT_SPEED;
+			}
 		} else if (this.zoomIn) {
-			currZoom *= ZOOM_IN_SPEED;
+			if (this.currZoom < MAX_ZOOM_IN) {
+				currZoom *= ZOOM_IN_SPEED;
+			}
 		}
 	}
 
@@ -81,8 +87,21 @@ public class DrawingSystem {
 
 
 	public void drawShape(Point tmp, Graphics g, Body b, boolean mustBeOnscreen) {
-		Graphics2D g2 = (Graphics2D)g;
+		Graphics2D g2 = (Graphics2D)g; // todo - move back!
 		g2.setStroke(stroke);
+
+		// Ensure within bounds of the world
+		Vec2 pos = b.getWorldCenter();
+		if (pos.x < 0) {
+			b.setTransform(new Vec2(pos.x+Statics.WORLD_WIDTH_LOGICAL, pos.y), b.getAngle());
+		} else if (pos.x > Statics.WORLD_WIDTH_LOGICAL) {
+			b.setTransform(new Vec2(pos.x-Statics.WORLD_WIDTH_LOGICAL, pos.y), b.getAngle());
+		}
+		if (pos.y < 0) {
+			b.setTransform(new Vec2(pos.x, pos.y+Statics.WORLD_HEIGHT_LOGICAL), b.getAngle());
+		} else if (pos.y > Statics.WORLD_HEIGHT_LOGICAL) {
+			b.setTransform(new Vec2(pos.x, pos.y-Statics.WORLD_HEIGHT_LOGICAL), b.getAngle());
+		}
 
 		if (mustBeOnscreen) {
 			this.getPixelPos(tmp, b.getWorldCenter());
@@ -92,7 +111,8 @@ public class DrawingSystem {
 
 		Fixture f = b.getFixtureList();
 		if (f == null) {
-			throw new RuntimeException("No fixture!");
+			BodyUserData bud = (BodyUserData)b.getUserData();
+			Statics.p("WARNING: " + bud.name + " has no fixture");
 		}
 		while (f != null) {
 			Color col = Color.gray;
