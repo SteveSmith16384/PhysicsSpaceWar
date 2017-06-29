@@ -26,10 +26,10 @@ public class DrawingSystem {
 	private static final float INNER = 0.22f; // 0.3f
 	private static final float ZOOM_IN_SPEED = 1.01f;
 	private static final float ZOOM_OUT_SPEED = .99f;
-	private static final float MAX_ZOOM_IN = 4f;
+	private static final float MAX_ZOOM_IN = 3f;
 	private static final float MAX_ZOOM_OUT = .5f;
 
-	public float currZoom = 3f;
+	public float currZoom = MAX_ZOOM_OUT;
 	public Vec2 cam_centre_logical = new Vec2();
 	private Stroke stroke;
 	private boolean zoomIn, zoomOut;
@@ -40,9 +40,6 @@ public class DrawingSystem {
 
 
 	public void startOfDrawing(Graphics g) {
-		Graphics2D g2 = (Graphics2D)g;
-		g2.setStroke(stroke);
-
 		zoomIn = false;
 		zoomOut = false;
 	}
@@ -90,6 +87,9 @@ public class DrawingSystem {
 
 
 	public void drawShape(Point tmp, Graphics g, Body b, boolean mustBeOnscreen) {
+		Graphics2D g2 = (Graphics2D)g; // todo - move back!
+		g2.setStroke(stroke);
+
 		// Ensure within bounds of the world
 		Vec2 pos = b.getWorldCenter();
 		if (pos.x < 0) {

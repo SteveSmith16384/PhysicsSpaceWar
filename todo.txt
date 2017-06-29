@@ -1,20 +1,18 @@
 TODO
-Loop around world
+Get moons to orbit the sun
+	Loop around world
 	Fixtures disappearing after collision? 
-	Mismatch between players and stuff to keep in view
 	get winner
-Create edges to the map
 	Bullets hit own player after a few seconds
 	Stars not quite right
 	Homing missile
-	Small moon
 	Meteors
+Enemy bullets makes player go out of control
 
 
 LATER
 Use Iterator instead?
 Show players health on screen
-Enemy bullets makes player go out of control
 Race mode
 Gun emplacements that shoot player
 Space monster with "rope" tentacles
