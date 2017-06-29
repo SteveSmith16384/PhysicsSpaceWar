@@ -40,7 +40,7 @@ public class HomingMissile extends PhysicalEntity implements IDrawable, ICollide
 
 	@Override
 	public void draw(Graphics g, DrawingSystem system) {
-		system.drawShape(tmpPoint, g, body, true);
+		system.drawShape(tmpPoint, g, body, false);
 	}
 
 

@@ -412,6 +412,8 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			Vec2 pos = new Vec2();
 			pos.x += 50;
 			HomingMissile m = new HomingMissile(this, pos, ig);
+			this.addEntity(m);
+			Statics.p("Homing missile");
 		}
 
 	}

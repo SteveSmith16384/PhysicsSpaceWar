@@ -45,9 +45,9 @@ public class DrawingSystem {
 
 	public void endOfDrawing() {
 		if (this.zoomOut) {
-			// todo - re-add currZoom *= ZOOM_OUT_SPEED;
+			currZoom *= ZOOM_OUT_SPEED;
 		} else if (this.zoomIn) {
-			// todo - re-add currZoom *= ZOOM_IN_SPEED;
+			currZoom *= ZOOM_IN_SPEED;
 		}
 	}
 
@@ -91,6 +91,9 @@ public class DrawingSystem {
 		}
 
 		Fixture f = b.getFixtureList();
+		if (f == null) {
+			throw new RuntimeException("No fixture!");
+		}
 		while (f != null) {
 			Color col = Color.gray;
 			BodyUserData userdata = (BodyUserData)f.getUserData();
