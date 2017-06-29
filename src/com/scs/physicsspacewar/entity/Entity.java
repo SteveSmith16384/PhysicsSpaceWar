@@ -8,10 +8,10 @@ import com.scs.physicsspacewar.Main;
 
 public abstract class Entity { 
 	
-	public int id;
 	private static int next_id = 0;
-	public Point tmpPoint = new Point();
 
+	public int id;
+	public Point tmpPoint = new Point();
 	protected Main main;
 	public String name;
 	
@@ -26,10 +26,18 @@ public abstract class Entity {
 
 	public abstract void cleanup(World world);
 	
-	@Override
+	/*@Override
 	public String toString() {
 		return name;
-	}
+	}*/
 	
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName();
+	}
+
+
+
+
 
 }

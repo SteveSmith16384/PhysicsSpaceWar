@@ -2,7 +2,6 @@ package com.scs.physicsspacewar.input;
 
 import org.gamepad4j.Controllers;
 
-
 public final class DeviceShutdownHook extends Thread {
 
 	public DeviceShutdownHook() {

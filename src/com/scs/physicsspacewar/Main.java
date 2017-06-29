@@ -48,7 +48,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 	public MainWindow window;
 
 	private TSArrayList<Entity> entities;
-	private ArrayList<Entity> playerShips;
+	private List<Entity> playerShips;
 	private TSArrayList<ICausesGravity> gravityCausers;
 	private List<IInputDevice> newControllers = new ArrayList<>();
 	private List<Player> players = new ArrayList<>();
@@ -113,6 +113,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 					IProcessable id = (IProcessable)e;
 					id.preprocess(interpol);
 				}
+				// Positional gravity
 				if (e instanceof IAffectedByGravity) {
 					IAffectedByGravity affected = (IAffectedByGravity)e;
 					for (ICausesGravity cg : this.gravityCausers) {
@@ -134,26 +135,21 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 
 			Vec2 newCamPos = new Vec2();
 			for (Entity e : this.playerShips) {
-				//if (e instanceof IPlayerControllable) {
 				IPlayerControllable id = (IPlayerControllable)e;
 				this.playerInputSystem.process(id);
 				newCamPos.x += id.getPosition().x;
 				newCamPos.y += id.getPosition().y;
-				//numAvatars++;
-				//}
 			}
 			if (playerShips.size() > 0) {
 				newCamPos.x /= playerShips.size();
 				newCamPos.y /= playerShips.size();
 
-				this.drawingSystem.cam_centre_logical.x = newCamPos.x;// * this.drawingSystem.currZoom;
-				this.drawingSystem.cam_centre_logical.y = newCamPos.y;// * this.drawingSystem.currZoom;
-
-				/*Point pxlpos = new Point();
-				this.drawingSystem.getPixelPos(pxlpos, newCamPos);
-				//this.drawingSystem.cam_centre = id.getPosition();
-				this.drawingSystem.cam_centre.x = pxlpos.x;
-				this.drawingSystem.cam_centre.y = pxlpos.y;*/
+				this.drawingSystem.cam_centre_logical.x = newCamPos.x;
+				this.drawingSystem.cam_centre_logical.y = newCamPos.y;
+			} else {
+				// Default to centre
+				this.drawingSystem.cam_centre_logical.x = Statics.WORLD_WIDTH_LOGICAL/2;
+				this.drawingSystem.cam_centre_logical.y = Statics.WORLD_HEIGHT_LOGICAL/2;
 			}
 
 			collisions.clear();
@@ -172,7 +168,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			g.drawString("Num Entities: " + this.entities.size(), 20, 70);
 			g.drawString("Zoom: " + this.drawingSystem.currZoom, 20, 90);
 
-			drawingSystem.startOfDrawing();
+			drawingSystem.startOfDrawing(g);
 			for (Entity e : this.entities) {
 				if (e instanceof IDrawable) {
 					IDrawable sprite = (IDrawable)e;
@@ -214,7 +210,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 		world = new World(gravity);
 		world.setContactListener(this);
 
-		//todo - re-add this.addEntity(new Starfield(this));
+		this.addEntity(new Starfield(this));
 
 		level = new TestMap(this);//   AbstractLevel.GetLevel(levelNum, this);//new Level3(this);// 
 		level.createWorld(world, this);
@@ -226,21 +222,6 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 		}
 
 	}
-
-
-	/*private void launchRock() {
-		BodyUserData bud = new BodyUserData("Rock", BodyUserData.Type.Rock, Color.gray);
-		Body rock = JBox2DFunctions.AddCircle(bud, world, 60, 10, 1, BodyType.DYNAMIC, .4f, 1f, .1f);
-		DrawableBody db = new DrawableBody(rock);
-		bud.entity = db;
-
-		this.entities.add(db);
-
-		int offx = Statics.rnd.nextInt(70)+35;
-		int offy = Statics.rnd.nextInt(50);
-		Vec2 force = new Vec2(-offx, -offy);
-		rock.applyForceToCenter(force);
-	}*/
 
 
 	private void processCollision(Contact contact) {
@@ -275,25 +256,6 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 
 	@Override
 	public void beginContact(Contact contact) {
-		//Statics.p("Generic collision");
-
-		/*Body ba = contact.getFixtureA().getBody();
-		Body bb = contact.getFixtureB().getBody();
-
-		BodyUserData ba_ud = (BodyUserData)ba.getUserData();
-		BodyUserData bb_ud = (BodyUserData)bb.getUserData();
-
-		//Statics.p("BeginContact BodyUserData A:" + ba_ud);
-		//Statics.p("BeginContact BodyUserData B:" + bb_ud);
-
-		Entity entityA = ba_ud.entity;
-		Entity entityB = bb_ud.entity;
-
-		//Statics.p("BeginContact Entity A:" + entityA);
-		//Statics.p("BeginContact Entity B:" + entityB);
-
-		//if (entityA)*/
-
 		this.collisions.add(contact);
 
 	}
@@ -378,9 +340,9 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 	public void addEntity(Entity o) {
 		synchronized (entities) {
 			if (Statics.DEBUG) {
-				if (this.entities.contains(o)) {
+				/*if (this.entities.contains(o)) {
 					throw new RuntimeException(o + " has already been added");
-				}
+				}*/
 			}
 			this.entities.add(o);
 			if (o instanceof ICausesGravity) {
@@ -410,15 +372,34 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 		} else if (ke.getKeyCode() == KeyEvent.VK_1) {
 			IGetPosition ig = (IGetPosition)this.playerShips.get(0);
 			Vec2 pos = new Vec2();
-			pos.x += 50;
+			pos.y += 50;
 			HomingMissile m = new HomingMissile(this, pos, ig);
+			this.addEntity(m);
 		}
 
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
+		//  Who uses this?!
+	}
 
+
+	@Override
+	public void controllerRemoved(IInputDevice input) {
+		for (Player player : this.players) {
+			if (player.input == input) {
+				this.players.remove(player);
+				break;
+			}
+		}
+		for (Entity e : this.entities) {
+			if (e instanceof PlayersShip) {
+				this.removeEntity(e);
+				//break;
+			}
+		}
+		
 	}
 }
 

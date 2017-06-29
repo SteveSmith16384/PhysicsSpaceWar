@@ -6,15 +6,15 @@ import java.awt.Graphics;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
+import ssmith.lang.Functions;
+
 import com.scs.physicsspacewar.Main;
 import com.scs.physicsspacewar.entity.components.IDrawable;
 import com.scs.physicsspacewar.entity.systems.DrawingSystem;
 
 public class Starfield extends Entity implements IDrawable {
 
-	private static final int SPACING = 50;
-
-	//private Vec2 prevCamPos = new Vec2();
+	//private static final int SPACING = 50;
 
 	public Starfield(Main _main) {
 		super(_main, "Starfield");
@@ -24,13 +24,15 @@ public class Starfield extends Entity implements IDrawable {
 	@Override
 	public void draw(Graphics g, DrawingSystem system) {
 		//Vec2 offset = this.prevCamPos.sub(system.cam_centre);
-
+		int spacing = (int)system.currZoom * 30;
 		g.setColor(Color.LIGHT_GRAY);
-		for (int y=0 ; y<main.window.getHeight() ; y+= SPACING) {
-			for (int x=0 ; x<main.window.getWidth() ; x+= SPACING) {
-				int offx = (int)system.cam_centre_logical.x % SPACING;
-				int offy = (int)system.cam_centre_logical.y % SPACING;
-				g.drawRect(x+offx, y+offy, 1, 1);
+		int sx = (int)system.cam_centre_logical.x % spacing;
+		int sy = (int)system.cam_centre_logical.y % spacing;
+		for (int y=-sy ; y<main.window.getHeight() ; y+= spacing) {
+			for (int x=-sx ; x<main.window.getWidth() ; x+= spacing) {
+				//int offx = (int)system.cam_centre_logical.x % spacing;
+				//int offy = (int)system.cam_centre_logical.y % spacing;
+				g.drawRect(x, y, Functions.rnd(1, 2), Functions.rnd(1, 2));
 			}			
 		}
 

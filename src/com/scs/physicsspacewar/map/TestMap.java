@@ -9,7 +9,7 @@ import ssmith.util.RealtimeInterval;
 
 import com.scs.physicsspacewar.Main;
 import com.scs.physicsspacewar.Statics;
-import com.scs.physicsspacewar.entity.Meteor;
+import com.scs.physicsspacewar.entity.Moon;
 import com.scs.physicsspacewar.entity.Sun;
 
 public class TestMap extends AbstractMap {
@@ -23,8 +23,16 @@ public class TestMap extends AbstractMap {
 
 
 	public void createWorld(World world, Main main) {
-		Sun sun = new Sun(main, world, Statics.WORLD_WIDTH_LOGICAL/3, Statics.WORLD_HEIGHT_LOGICAL/3, 50);
+		Sun sun = new Sun(main, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL/2, 50);
 		main.addEntity(sun);
+
+		Moon lowMoon = new Moon(main, Statics.WORLD_WIDTH_LOGICAL/2, (Statics.WORLD_HEIGHT_LOGICAL/2) + 80, 10);
+		main.addEntity(lowMoon);
+		lowMoon.applyForceToCenter(new Vec2(1000000, 0)); // Orbit sun
+
+		Moon highMoon = new Moon(main, Statics.WORLD_WIDTH_LOGICAL/2, (Statics.WORLD_HEIGHT_LOGICAL/2) + 200, 10);
+		main.addEntity(highMoon);
+		highMoon.applyForceToCenter(new Vec2(-1000000, 0)); // Orbit sun
 
 	}
 

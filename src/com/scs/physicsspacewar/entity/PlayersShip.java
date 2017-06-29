@@ -26,7 +26,7 @@ import com.scs.physicsspacewar.input.IInputDevice;
 
 public class PlayersShip extends PhysicalEntity implements IPlayerControllable, IDrawable, ICollideable, IProcessable, IAffectedByGravity, IDamagable {
 
-	private static final int SHOT_INT = 2000;
+	private static final int SHOT_INT = 500;
 	public static final float SIZE = 4f;
 	public static final float MAX_ANGLE_VEL = 4f;
 
@@ -35,7 +35,7 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 	private long lastShotTime;
 	private Timer jetTimer = new Timer(100);
 	private boolean isJetting = false;
-	public int health = 3;
+	public int health = 1;
 
 	public PlayersShip(Player player, Main main, World world, float x, float y) {
 		super(main, PlayersShip.class.getSimpleName());
@@ -64,15 +64,15 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 			if (body.getAngularVelocity() > -MAX_ANGLE_VEL) {
 				body.applyTorque(-Statics.TURN_TORQUE);
 			}
-			Statics.p("Ang vel: " + body.getAngularVelocity() );
+			//Statics.p("Ang vel: " + body.getAngularVelocity() );
 		} else if (input.isRightPressed()) {
 			if (body.getAngularVelocity() < MAX_ANGLE_VEL) {
 				body.applyTorque(Statics.TURN_TORQUE);		
 			}
-			Statics.p("Ang vel: " + body.getAngularVelocity() );
+			//Statics.p("Ang vel: " + body.getAngularVelocity() );
 		}
 
-		if (input.isJumpPressed()) {
+		if (input.isUpPressed()) {
 			isJetting = true;
 			Vec2 force = new Vec2();
 			force.y = (float)Math.cos(body.getAngle()) * -1;
@@ -111,26 +111,6 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 	}
 
 
-	/*@Override
-	public void collided(Contact contact, boolean weAreA) {
-		Fixture f = null;
-		if (weAreA) {
-			f = contact.getFixtureB();
-		} else {
-			f = contact.getFixtureA();
-		}
-		//Statics.p("Player collided with " + f.getBody());
-		BodyUserData bud = (BodyUserData)f.getBody().getUserData();
-		if (bud != null) {
-			Statics.p("Player collided with " + bud.name + " at " + contact.getTangentSpeed());
-			if (bud.harmsPlayer) {
-				Statics.p("Death!");
-				main.restartAvatar(this);
-			}
-		}
-	}*/
-
-
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName();
@@ -154,14 +134,6 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 
 	@Override
 	public void collided(Entity them) {
-		/*BodyUserData bud = (BodyUserData)f.getBody().getUserData();
-		if (bud != null) {
-			Statics.p("Player collided with " + bud.name + " at " + contact.getTangentSpeed());
-			if (bud.harmsPlayer) {
-				Statics.p("Death!");
-				main.restartAvatar(this);
-			}
-		}*/
 
 	}
 
