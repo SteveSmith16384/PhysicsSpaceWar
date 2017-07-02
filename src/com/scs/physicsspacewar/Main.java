@@ -238,13 +238,14 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			Entity entityA = ba_ud.entity;
 			Entity entityB = bb_ud.entity;
 
-			//Statics.p("BeginContact Entity A:" + entityA);
-			//Statics.p("BeginContact Entity B:" + entityB);
+			Statics.p("BeginContact Entity A:" + entityA);
+			Statics.p("BeginContact Entity B:" + entityB);
 
 			if (entityA instanceof ICollideable) {
 				ICollideable ic = (ICollideable) entityA;
 				ic.collided(entityB);
-			} else if (entityB instanceof ICollideable) {
+			}
+			if (entityB instanceof ICollideable) {
 				ICollideable ic = (ICollideable) entityB;
 				ic.collided(entityA);
 			}

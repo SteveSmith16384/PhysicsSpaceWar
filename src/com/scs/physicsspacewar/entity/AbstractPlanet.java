@@ -19,7 +19,7 @@ public abstract class AbstractPlanet extends PhysicalEntity implements IDrawable
 		super(main, name);
 		
 		BodyUserData bud = new BodyUserData(name, c, this);
-		body = JBox2DFunctions.AddCircle(bud, main.world, x, y, rad, BodyType.DYNAMIC, .1f, .2f, 10f);
+		body = JBox2DFunctions.AddCircle(bud, main.world, x, y, rad, BodyType.DYNAMIC, .1f, .2f, 5f);
 	}
 
 

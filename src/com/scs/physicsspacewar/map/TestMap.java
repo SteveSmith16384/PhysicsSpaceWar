@@ -1,5 +1,6 @@
 package com.scs.physicsspacewar.map;
 
+import java.awt.Color;
 import java.awt.Point;
 
 import org.jbox2d.common.Vec2;
@@ -26,13 +27,13 @@ public class TestMap extends AbstractMap {
 		Sun sun = new Sun(main, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL/2, 50);
 		main.addEntity(sun);
 
-		Moon highMoon = new Moon(main, Statics.WORLD_WIDTH_LOGICAL/2, (Statics.WORLD_HEIGHT_LOGICAL/2) + 200, 10);
+		Moon highMoon = new Moon(main, Statics.WORLD_WIDTH_LOGICAL/2, (Statics.WORLD_HEIGHT_LOGICAL/2) + 200, 10, Color.white);
 		main.addEntity(highMoon);
-		highMoon.applyForceToCenter(new Vec2(-highMoon.getMass() * 1000, 0)); // Orbit sun
+		highMoon.applyForceToCenter(new Vec2(-highMoon.getMass() * 1200, 0)); // Orbit sun
 
-		Moon lowMoon = new Moon(main, Statics.WORLD_WIDTH_LOGICAL/2, (Statics.WORLD_HEIGHT_LOGICAL/2) + 400, 10);
+		Moon lowMoon = new Moon(main, Statics.WORLD_WIDTH_LOGICAL/2, (Statics.WORLD_HEIGHT_LOGICAL/2) + 400, 12, Color.white.darker());
 		main.addEntity(lowMoon);
-		lowMoon.applyForceToCenter(new Vec2(lowMoon.getMass() * 800, 0)); // Orbit sun
+		lowMoon.applyForceToCenter(new Vec2(lowMoon.getMass() * 900, 0)); // Orbit sun
 
 	}
 

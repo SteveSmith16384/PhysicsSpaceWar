@@ -134,7 +134,7 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 
 	@Override
 	public void collided(Entity them) {
-
+		System.out.println("Here:" + them);
 	}
 
 

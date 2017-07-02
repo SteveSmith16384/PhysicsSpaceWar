@@ -19,7 +19,7 @@ import com.scs.physicsspacewar.entity.systems.DrawingSystem;
 
 public class HomingMissile extends PhysicalEntity implements IDrawable, ICollideable, IAffectedByGravity, IProcessable {
 
-	private static final float SPEED = 1f;
+	private static final float SPEED = 500f;
 	
 	private static final float RADIUS = 2f;
 	private static final float DENSITY = 1f;

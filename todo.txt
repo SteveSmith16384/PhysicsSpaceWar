@@ -1,7 +1,12 @@
 TODO
+Players killed if hit sun
+Singlar collision function
+Sort out PS4 controls
+Auto slow down turning
+Make confined area for battle - gravity wars 2
+Search or todos
 Get moons to orbit the sun
 	Loop around world
-	Fixtures disappearing after collision? 
 	get winner
 	Bullets hit own player after a few seconds
 	Stars not quite right
