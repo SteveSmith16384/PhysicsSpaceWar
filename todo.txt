@@ -1,27 +1,22 @@
 TODO
-Players killed if hit sun
-Singlar collision function
-Sort out PS4 controls
-Auto slow down turning
+Players shoot homing missile
+Make starfield look better
 Make confined area for battle - gravity wars 2
+Players killed if hit sun
+	Sort out PS4 controls
 Search or todos
-Get moons to orbit the sun
+	Get moons to orbit the sun
 	Loop around world
 	get winner
 	Bullets hit own player after a few seconds
-	Stars not quite right
-	Homing missile
-	Meteors
+Launch random Meteors
 Enemy bullets makes player go out of control
 
 
 LATER
-Use Iterator instead?
 Show players health on screen
-Race mode
 Gun emplacements that shoot player
 Space monster with "rope" tentacles
-Radar
 
 
 GAME MODES

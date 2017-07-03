@@ -72,7 +72,7 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 			//Statics.p("Ang vel: " + body.getAngularVelocity() );
 		}
 
-		if (input.isUpPressed()) {
+		if (input.isThrustPressed()) {
 			isJetting = true;
 			Vec2 force = new Vec2();
 			force.y = (float)Math.cos(body.getAngle()) * -1;

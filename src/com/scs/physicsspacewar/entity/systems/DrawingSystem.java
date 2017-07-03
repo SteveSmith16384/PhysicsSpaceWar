@@ -18,7 +18,6 @@ import org.jbox2d.dynamics.Fixture;
 
 import com.scs.physicsspacewar.BodyUserData;
 import com.scs.physicsspacewar.Statics;
-import com.scs.physicsspacewar.entity.components.IDrawable;
 
 public class DrawingSystem {
 

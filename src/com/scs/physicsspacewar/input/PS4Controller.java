@@ -1,7 +1,6 @@
 package com.scs.physicsspacewar.input;
 
 import org.gamepad4j.ButtonID;
-import org.gamepad4j.DpadDirection;
 import org.gamepad4j.IController;
 import org.gamepad4j.IStick;
 import org.gamepad4j.StickID;
@@ -41,18 +40,24 @@ public final class PS4Controller implements IInputDevice {
 
 
 	@Override
-	public boolean isUpPressed() {
-		StickPosition pos = gamepad.getStick(StickID.LEFT).getPosition();
-		return pos.getDirection() == DpadDirection.UP;
+	public boolean isThrustPressed() {
+		return gamepad.isButtonPressed(ButtonID.FACE_RIGHT);
 	}
 
 
-	@Override
+	/*@Override
+	public boolean isUpPressed() {
+		StickPosition pos = gamepad.getStick(StickID.LEFT).getPosition();
+		return pos.getDirection() == DpadDirection.UP;
+	}*/
+
+
+	/*@Override
 	public boolean isDownPressed() {
 		StickPosition pos = gamepad.getStick(StickID.LEFT).getPosition();
 		//return pos.getDirection() == DpadDirection.DOWN;
 		return pos.getDegree() > 107 && pos.getDegree() < 252;
-	}
+	}*/
 
 
 	@Override

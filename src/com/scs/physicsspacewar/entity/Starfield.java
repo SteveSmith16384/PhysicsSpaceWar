@@ -3,7 +3,6 @@ package com.scs.physicsspacewar.entity;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
 import ssmith.lang.Functions;

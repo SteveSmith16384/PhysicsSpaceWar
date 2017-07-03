@@ -8,9 +8,9 @@ public interface IInputDevice {
 
 	boolean isRightPressed();
 	
-	boolean isUpPressed();
+	boolean isThrustPressed();
 	
-	boolean isDownPressed();
+	//boolean isDownPressed();
 	
 	float getStickDistance();
 	

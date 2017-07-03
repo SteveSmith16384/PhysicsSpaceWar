@@ -46,15 +46,15 @@ public class KeyboardInput implements IInputDevice, KeyListener {
 
 
 	@Override
-	public boolean isUpPressed() {
+	public boolean isThrustPressed() {
 		return up;
 	}
 
 
-	@Override
+	/*@Override
 	public boolean isDownPressed() {
 		return down;
-	}
+	}*/
 
 
 	@Override
