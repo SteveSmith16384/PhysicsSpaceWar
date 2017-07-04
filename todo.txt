@@ -1,4 +1,7 @@
 TODO
+Make spaceship diff colours
+Destroy bullets after a while
+Colour bullets
 Players shoot homing missile
 Make starfield look better
 Make confined area for battle - gravity wars 2
