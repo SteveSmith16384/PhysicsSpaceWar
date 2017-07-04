@@ -84,6 +84,7 @@ public class JBox2DFunctions {
 		fd.restitution = restitution;
 		fd.density = weight_kgm2;
 		fd.friction = friction;
+		fd.setUserData(bud);
 
 		BodyDef bd = new BodyDef();
 		bd.type = bodytype;
@@ -234,7 +235,7 @@ public class JBox2DFunctions {
 	}
 	
 	
-	public static boolean canSee(Vec2 start, Vec2 end)  {
+	public static boolean canSee(World world, Vec2 start, Vec2 end)  {
 		return false; // todo
 	}
 	
