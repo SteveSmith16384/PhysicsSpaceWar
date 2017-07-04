@@ -40,7 +40,7 @@ import com.scs.physicsspacewar.input.DeviceThread;
 import com.scs.physicsspacewar.input.IInputDevice;
 import com.scs.physicsspacewar.input.NewControllerListener;
 import com.scs.physicsspacewar.map.AbstractMap;
-import com.scs.physicsspacewar.map.TestMap;
+import com.scs.physicsspacewar.map.GravityWars;
 
 public class Main implements ContactListener, NewControllerListener, KeyListener {
 
@@ -206,13 +206,14 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 		this.gravityCausers = new TSArrayList<ICausesGravity>();
 		playerShips = new ArrayList<Entity>();
 
-		Vec2 gravity = new Vec2(0f, 0f);
-		world = new World(gravity);
+		level = new GravityWars(this);// SolarSystem(this); 
+
+		//Vec2 gravity = new Vec2(0f, 0f);
+		world = new World(level.getGravity());
 		world.setContactListener(this);
 
 		this.addEntity(new Starfield(this));
 
-		level = new TestMap(this);//   AbstractLevel.GetLevel(levelNum, this);//new Level3(this);// 
 		level.createWorld(world, this);
 		this.addEntity(level);
 
@@ -321,7 +322,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 
 
 	private void createAvatar(Player player) {
-		Point p = this.level.getPlayerStartPos(player.id);
+		Point p = this.level.getPlayerStartPos(player.id_ZB);
 		PlayersShip avatar = new PlayersShip(player, this, world, p.x, p.y);
 		this.addEntity(avatar);
 	}

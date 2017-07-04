@@ -25,13 +25,17 @@ public class DrawingSystem {
 	private static final float INNER = 0.22f; // 0.3f
 	private static final float ZOOM_IN_SPEED = 1.01f;
 	private static final float ZOOM_OUT_SPEED = .99f;
-	private static final float MAX_ZOOM_IN = 3f;
-	private static final float MAX_ZOOM_OUT = .5f;
+	private static final float MAX_ZOOM_IN = 2.5f;
+	private static final float MAX_ZOOM_OUT = 0.5f;
 
-	public float currZoom = MAX_ZOOM_OUT;
+	public float currZoom = (MAX_ZOOM_IN+MAX_ZOOM_OUT)/2;
 	public Vec2 cam_centre_logical = new Vec2();
 	private Stroke stroke;
 	private boolean zoomIn, zoomOut;
+
+	// for drawing edges
+	private Point tmp1 = new Point();
+	private Point tmp2 = new Point();
 
 	public DrawingSystem() {
 		stroke = new BasicStroke(4);
@@ -41,6 +45,28 @@ public class DrawingSystem {
 	public void startOfDrawing(Graphics g) {
 		zoomIn = false;
 		zoomOut = false;
+
+		// Draw edges
+		g.setColor(Color.darkGray);
+		// Left
+		this.getPixelPos(tmp1, new Vec2());
+		this.getPixelPos(tmp2, new Vec2(0, Statics.WORLD_HEIGHT_LOGICAL));
+		g.drawLine(tmp1.x, tmp1.y, tmp2.x, tmp2.y);
+
+		// Top
+		this.getPixelPos(tmp1, new Vec2());
+		this.getPixelPos(tmp2, new Vec2(Statics.WORLD_WIDTH_LOGICAL, 0));
+		g.drawLine(tmp1.x, tmp1.y, tmp2.x, tmp2.y);
+
+		// Right
+		this.getPixelPos(tmp1, new Vec2(Statics.WORLD_WIDTH_LOGICAL, 0));
+		this.getPixelPos(tmp2, new Vec2(Statics.WORLD_WIDTH_LOGICAL, Statics.WORLD_HEIGHT_LOGICAL));
+		g.drawLine(tmp1.x, tmp1.y, tmp2.x, tmp2.y);
+
+		// Bottom
+		this.getPixelPos(tmp1, new Vec2(0, Statics.WORLD_HEIGHT_LOGICAL));
+		this.getPixelPos(tmp2, new Vec2(Statics.WORLD_HEIGHT_LOGICAL, Statics.WORLD_HEIGHT_LOGICAL));
+		g.drawLine(tmp1.x, tmp1.y, tmp2.x, tmp2.y);
 	}
 
 
@@ -86,7 +112,7 @@ public class DrawingSystem {
 
 
 	public void drawShape(Point tmp, Graphics g, Body b, boolean mustBeOnscreen) {
-		Graphics2D g2 = (Graphics2D)g; // todo - move back!
+		Graphics2D g2 = (Graphics2D)g;
 		g2.setStroke(stroke);
 
 		// Ensure within bounds of the world

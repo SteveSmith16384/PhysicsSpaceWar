@@ -8,6 +8,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;
 
+import ssmith.lang.Functions;
 import ssmith.util.Timer;
 
 import com.scs.physicsspacewar.BodyUserData;
@@ -41,9 +42,9 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 		super(main, PlayersShip.class.getSimpleName());
 
 		input = player.input;
-		id = player.id;
+		id = player.id_ZB;
 
-		BodyUserData bud = new BodyUserData("Player_Body", Color.black, this);
+		BodyUserData bud = new BodyUserData("Player_Body", getColour(player.id_ZB), this);
 		Vec2[] vertices = new Vec2[3];
 		vertices[0] = new Vec2(SIZE/4, 0);
 		vertices[1] = new Vec2(SIZE/2, SIZE);
@@ -52,11 +53,24 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 		body.setTransform(new Vec2(x, y), 1);
 		body.setBullet(true);
 
-		PolygonShape ps = new PolygonShape();
+		/*PolygonShape ps = new PolygonShape();
 		ps.setAsBox(SIZE/2, SIZE/10, new Vec2(0, SIZE), 0);
-
+*/
 	}
 
+	
+	protected static Color getColour(int i) {
+		switch (i) {
+		case 0: return Color.magenta;
+		case 1: return Color.green;
+		case 2: return Color.cyan;
+		case 3: return Color.orange;
+		default: return Color.pink;
+			
+		}
+	}
+	
+	
 
 	@Override
 	public void processInput() {

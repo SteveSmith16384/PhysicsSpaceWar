@@ -13,7 +13,7 @@ import com.scs.physicsspacewar.entity.components.ICausesGravity;
 import com.scs.physicsspacewar.entity.components.IDrawable;
 import com.scs.physicsspacewar.entity.systems.DrawingSystem;
 
-public abstract class AbstractPlanet extends PhysicalEntity implements IDrawable, ICausesGravity, IAffectedByGravity {
+public abstract class AbstractPlanet extends PhysicalEntity implements IDrawable, IAffectedByGravity { // ICausesGravity
 
 	public AbstractPlanet(Main main, String name, float x, float y, float rad, Color c) {
 		super(main, name);

@@ -13,13 +13,19 @@ import com.scs.physicsspacewar.Statics;
 import com.scs.physicsspacewar.entity.Moon;
 import com.scs.physicsspacewar.entity.Sun;
 
-public class TestMap extends AbstractMap {
+public class SolarSystem extends AbstractMap {
 
 	private RealtimeInterval meteorInt = new RealtimeInterval(3000);
 	private boolean missile = false;
-	
-	public TestMap(Main main) {
+
+	public SolarSystem(Main main) {
 		super(main);
+	}
+
+
+	@Override
+	public Vec2 getGravity() {
+		return new Vec2(0f, 0f);
 	}
 
 
@@ -40,7 +46,18 @@ public class TestMap extends AbstractMap {
 
 	@Override
 	public Point getPlayerStartPos(int pid) {
-		return new Point((int)Statics.WORLD_WIDTH_LOGICAL/4, (int)(Statics.WORLD_HEIGHT_LOGICAL /4));
+		switch (pid) {
+		case 0:
+			return new Point((int)Statics.WORLD_WIDTH_LOGICAL/4, (int)(Statics.WORLD_HEIGHT_LOGICAL /4));
+		case 1:
+			return new Point((int)(Statics.WORLD_WIDTH_LOGICAL*.75f), (int)(Statics.WORLD_HEIGHT_LOGICAL*.75f));
+		case 2:
+			return new Point((int)Statics.WORLD_WIDTH_LOGICAL/4, (int)(Statics.WORLD_HEIGHT_LOGICAL*.75f));
+		case 3:
+			return new Point((int)(Statics.WORLD_WIDTH_LOGICAL*.75f), (int)(Statics.WORLD_HEIGHT_LOGICAL /4));
+		default:
+			throw new RuntimeException("Todo");
+		}
 	}
 
 

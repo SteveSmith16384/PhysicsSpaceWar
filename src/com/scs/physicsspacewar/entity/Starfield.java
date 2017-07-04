@@ -13,8 +13,6 @@ import com.scs.physicsspacewar.entity.systems.DrawingSystem;
 
 public class Starfield extends Entity implements IDrawable {
 
-	//private static final int SPACING = 50;
-
 	public Starfield(Main _main) {
 		super(_main, "Starfield");
 	}
@@ -23,7 +21,7 @@ public class Starfield extends Entity implements IDrawable {
 	@Override
 	public void draw(Graphics g, DrawingSystem system) {
 		//Vec2 offset = this.prevCamPos.sub(system.cam_centre);
-		int spacing = 30; // todo - check min (int)system.currZoom * 30;
+		int spacing = (int)(system.currZoom * 30);
 		g.setColor(Color.LIGHT_GRAY);
 		int sx = (int)system.cam_centre_logical.x % spacing;
 		int sy = (int)system.cam_centre_logical.y % spacing;

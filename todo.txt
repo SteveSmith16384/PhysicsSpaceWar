@@ -1,19 +1,22 @@
 TODO
-Players shoot homing missile
-Make starfield look better
-Make confined area for battle - gravity wars 2
-Players killed if hit sun
-	Sort out PS4 controls
+Look at Gravity Wars maps
+Make starfield stars more sporadic
+	Make confined area for battle - gravity wars 2
 Search or todos
-	Get moons to orbit the sun
+Draw line from players
+	Draw line on edges of map
+	def zoom
+	Make starfield look better
 	Loop around world
 	get winner
 	Bullets hit own player after a few seconds
-Launch random Meteors
-Enemy bullets makes player go out of control
 
 
 LATER
+Players shoot homing missile
+Launch random Meteors
+Enemy bullets makes player go out of control
+Players killed if hit sun
 Show players health on screen
 Gun emplacements that shoot player
 Space monster with "rope" tentacles

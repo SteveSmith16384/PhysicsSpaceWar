@@ -4,7 +4,7 @@ import com.scs.physicsspacewar.input.IInputDevice;
 
 public class Player {
 	
-	public int score, id;
+	public int score, id_ZB;
 	public IInputDevice input;
 
 	private static int nextId = 0;
@@ -12,7 +12,7 @@ public class Player {
 	public Player(IInputDevice _input) {
 		super();
 		
-		id = nextId++;
+		id_ZB = nextId++;
 		input = _input;
 	}
 
