@@ -1,4 +1,10 @@
 TODO
+Create AI
+Auto stop turning
+Max speed
+Rename Main
+Say if player won
+Use size 1 stroke for players ships
 	Make spaceship diff colours
 Destroy bullets after a while
 Colour bullets

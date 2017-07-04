@@ -84,6 +84,8 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 				body.applyTorque(Statics.TURN_TORQUE);		
 			}
 			//Statics.p("Ang vel: " + body.getAngularVelocity() );
+		} else {
+			// todo - sklow down turning
 		}
 
 		if (input.isThrustPressed()) {

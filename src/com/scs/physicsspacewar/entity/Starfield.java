@@ -22,14 +22,14 @@ public class Starfield extends Entity implements IDrawable {
 	public void draw(Graphics g, DrawingSystem system) {
 		//Vec2 offset = this.prevCamPos.sub(system.cam_centre);
 		int spacing = (int)(system.currZoom * 30);
-		g.setColor(Color.LIGHT_GRAY);
+		g.setColor(Color.darkGray);
 		int sx = (int)system.cam_centre_logical.x % spacing;
 		int sy = (int)system.cam_centre_logical.y % spacing;
 		for (int y=-sy ; y<main.window.getHeight() ; y+= spacing) {
 			for (int x=-sx ; x<main.window.getWidth() ; x+= spacing) {
 				//int offx = (int)system.cam_centre_logical.x % spacing;
 				//int offy = (int)system.cam_centre_logical.y % spacing;
-				g.drawRect(x, y, Functions.rnd(1, 2), Functions.rnd(1, 2));
+				g.drawRect(x, y, 1, 1);//Functions.rnd(1, 2), Functions.rnd(1, 2));
 			}			
 		}
 
