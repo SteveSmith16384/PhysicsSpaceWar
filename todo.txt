@@ -1,4 +1,7 @@
 TODO
+Make ship wider
+More platforms on planet
+Volcano
 Create AI
 Auto stop turning
 Max speed

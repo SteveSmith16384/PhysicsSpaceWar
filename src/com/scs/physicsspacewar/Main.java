@@ -20,9 +20,6 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 
-import ssmith.awt.ImageCache;
-import ssmith.util.TSArrayList;
-
 import com.scs.physicsspacewar.entity.Entity;
 import com.scs.physicsspacewar.entity.HomingMissile;
 import com.scs.physicsspacewar.entity.PlayersShip;
@@ -40,7 +37,10 @@ import com.scs.physicsspacewar.input.DeviceThread;
 import com.scs.physicsspacewar.input.IInputDevice;
 import com.scs.physicsspacewar.input.NewControllerListener;
 import com.scs.physicsspacewar.map.AbstractMap;
-import com.scs.physicsspacewar.map.GravityWars;
+import com.scs.physicsspacewar.map.PlanetSurface;
+
+import ssmith.awt.ImageCache;
+import ssmith.util.TSArrayList;
 
 public class Main implements ContactListener, NewControllerListener, KeyListener {
 
@@ -206,7 +206,7 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 		this.gravityCausers = new TSArrayList<ICausesGravity>();
 		playerShips = new ArrayList<Entity>();
 
-		level = new GravityWars(this);// SolarSystem(this); 
+		level = new PlanetSurface(this);//GravityWars(this);// SolarSystem(this); 
 
 		//Vec2 gravity = new Vec2(0f, 0f);
 		world = new World(level.getGravity());

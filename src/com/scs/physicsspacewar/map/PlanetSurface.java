@@ -47,7 +47,7 @@ public class PlanetSurface extends AbstractMap {
 
 	@Override
 	public Vec2 getGravity() {
-		return new Vec2(0f, 10f);
+		return new Vec2(0f, 5f);
 	}
 
 }
