@@ -8,7 +8,7 @@ import org.jbox2d.dynamics.BodyType;
 
 import com.scs.physicsspacewar.BodyUserData;
 import com.scs.physicsspacewar.JBox2DFunctions;
-import com.scs.physicsspacewar.Main;
+import com.scs.physicsspacewar.Main_SpaceWar;
 import com.scs.physicsspacewar.entity.components.IAffectedByGravity;
 import com.scs.physicsspacewar.entity.components.ICollideable;
 import com.scs.physicsspacewar.entity.components.IDamagable;
@@ -26,7 +26,7 @@ public class HomingMissile extends PhysicalEntity implements IDrawable, ICollide
 	
 	private IGetPosition target;
 	
-	public HomingMissile(Main main, Vec2 pos, IGetPosition _target) {
+	public HomingMissile(Main_SpaceWar main, Vec2 pos, IGetPosition _target) {
 		super(main, HomingMissile.class.getSimpleName());
 		
 		target = _target;

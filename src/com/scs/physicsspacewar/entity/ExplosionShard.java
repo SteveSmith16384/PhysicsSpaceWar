@@ -10,7 +10,7 @@ import ssmith.lang.Functions;
 
 import com.scs.physicsspacewar.BodyUserData;
 import com.scs.physicsspacewar.JBox2DFunctions;
-import com.scs.physicsspacewar.Main;
+import com.scs.physicsspacewar.Main_SpaceWar;
 import com.scs.physicsspacewar.Statics;
 import com.scs.physicsspacewar.entity.components.IAffectedByGravity;
 import com.scs.physicsspacewar.entity.components.IDrawable;
@@ -21,7 +21,7 @@ public class ExplosionShard extends PhysicalEntity implements IDrawable, IProces
 
 	private long removeTime = 3000;
 
-	public ExplosionShard(Main main, Vec2 pos) {
+	public ExplosionShard(Main_SpaceWar main, Vec2 pos) {
 		super(main, ExplosionShard.class.getSimpleName());
 
 		BodyUserData bud = new BodyUserData("ExplosionShard", Color.red, this);

@@ -8,7 +8,7 @@ import org.jbox2d.dynamics.World;
 
 import ssmith.util.RealtimeInterval;
 
-import com.scs.physicsspacewar.Main;
+import com.scs.physicsspacewar.Main_SpaceWar;
 import com.scs.physicsspacewar.Statics;
 import com.scs.physicsspacewar.entity.Moon;
 import com.scs.physicsspacewar.entity.Sun;
@@ -18,7 +18,7 @@ public class SolarSystem extends AbstractMap {
 	private RealtimeInterval meteorInt = new RealtimeInterval(3000);
 	private boolean missile = false;
 
-	public SolarSystem(Main main) {
+	public SolarSystem(Main_SpaceWar main) {
 		super(main);
 	}
 
@@ -29,7 +29,7 @@ public class SolarSystem extends AbstractMap {
 	}
 
 
-	public void createWorld(World world, Main main) {
+	public void createWorld(World world, Main_SpaceWar main) {
 		Sun sun = new Sun(main, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL/2, 50);
 		main.addEntity(sun);
 

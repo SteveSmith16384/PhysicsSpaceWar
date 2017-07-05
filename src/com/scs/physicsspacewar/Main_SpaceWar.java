@@ -20,6 +20,9 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 
+import ssmith.awt.ImageCache;
+import ssmith.util.TSArrayList;
+
 import com.scs.physicsspacewar.entity.Entity;
 import com.scs.physicsspacewar.entity.HomingMissile;
 import com.scs.physicsspacewar.entity.PlayersShip;
@@ -37,12 +40,9 @@ import com.scs.physicsspacewar.input.DeviceThread;
 import com.scs.physicsspacewar.input.IInputDevice;
 import com.scs.physicsspacewar.input.NewControllerListener;
 import com.scs.physicsspacewar.map.AbstractMap;
-import com.scs.physicsspacewar.map.PlanetSurface;
+import com.scs.physicsspacewar.map.PlanetRandom;
 
-import ssmith.awt.ImageCache;
-import ssmith.util.TSArrayList;
-
-public class Main implements ContactListener, NewControllerListener, KeyListener {
+public class Main_SpaceWar implements ContactListener, NewControllerListener, KeyListener {
 
 	public World world;
 	public MainWindow window;
@@ -61,11 +61,11 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 
 
 	public static void main(String[] args) {
-		new Main();
+		new Main_SpaceWar();
 	}
 
 
-	public Main() {
+	public Main_SpaceWar() {
 		super();
 
 		window = new MainWindow(this);
@@ -88,6 +88,30 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(window, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+
+	private void startLevel() {
+		this.entities = new TSArrayList<Entity>();
+		this.gravityCausers = new TSArrayList<ICausesGravity>();
+		playerShips = new ArrayList<Entity>();
+
+		level = new PlanetRandom(this);//PlanetSurface(this);//GravityWars(this);// SolarSystem(this); 
+
+		//Vec2 gravity = new Vec2(0f, 0f);
+		world = new World(level.getGravity());
+		world.setContactListener(this);
+
+		this.addEntity(new Starfield(this));
+
+		level.createWorld(world, this);
+		this.addEntity(level);
+
+		// Create avatars
+		for (Player player : this.players) {
+			this.createAvatar(player);
+		}
+
 	}
 
 
@@ -198,30 +222,6 @@ public class Main implements ContactListener, NewControllerListener, KeyListener
 			}
 		}
 		System.exit(0);
-	}
-
-
-	private void startLevel() {
-		this.entities = new TSArrayList<Entity>();
-		this.gravityCausers = new TSArrayList<ICausesGravity>();
-		playerShips = new ArrayList<Entity>();
-
-		level = new PlanetSurface(this);//GravityWars(this);// SolarSystem(this); 
-
-		//Vec2 gravity = new Vec2(0f, 0f);
-		world = new World(level.getGravity());
-		world.setContactListener(this);
-
-		this.addEntity(new Starfield(this));
-
-		level.createWorld(world, this);
-		this.addEntity(level);
-
-		// Create avatars
-		for (Player player : this.players) {
-			this.createAvatar(player);
-		}
-
 	}
 
 

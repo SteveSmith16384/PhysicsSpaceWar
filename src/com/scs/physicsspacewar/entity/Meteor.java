@@ -1,14 +1,17 @@
 package com.scs.physicsspacewar.entity;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 
 import com.scs.physicsspacewar.BodyUserData;
 import com.scs.physicsspacewar.JBox2DFunctions;
-import com.scs.physicsspacewar.Main;
+import com.scs.physicsspacewar.Main_SpaceWar;
 import com.scs.physicsspacewar.Statics;
 import com.scs.physicsspacewar.entity.components.IAffectedByGravity;
 import com.scs.physicsspacewar.entity.components.ICollideable;
@@ -21,7 +24,9 @@ public class Meteor extends PhysicalEntity implements IDrawable, ICollideable, I
 	private static final float RADIUS = 10f;
 	private static final float DENSITY = 1f;
 	
-	public Meteor(Main main, Vec2 pos, Vec2 force) {
+	private Stroke stroke = new BasicStroke(4);
+
+	public Meteor(Main_SpaceWar main, Vec2 pos, Vec2 force) {
 		super(main, Meteor.class.getSimpleName());
 
 		BodyUserData bud = new BodyUserData("Meteor", Color.DARK_GRAY, this);
@@ -35,6 +40,8 @@ public class Meteor extends PhysicalEntity implements IDrawable, ICollideable, I
 
 	@Override
 	public void draw(Graphics g, DrawingSystem system) {
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setStroke(stroke);
 		system.drawShape(tmpPoint, g, body, false);
 	}
 

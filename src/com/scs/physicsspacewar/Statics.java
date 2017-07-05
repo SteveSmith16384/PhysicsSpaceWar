@@ -10,9 +10,6 @@ public class Statics {
 
 	public static final boolean DEBUG = true;
 	
-	public static final float TURN_TORQUE = 80*8f;
-	public static final float JET_FORCE = 70*15f;
-	
 	public static final int FPS = 30;
 	public static final Vec2 VEC_CENTRE = new Vec2(0, 0);
 

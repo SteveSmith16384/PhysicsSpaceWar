@@ -8,7 +8,7 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.World;
 
-import com.scs.physicsspacewar.Main;
+import com.scs.physicsspacewar.Main_SpaceWar;
 import com.scs.physicsspacewar.Statics;
 import com.scs.physicsspacewar.entity.components.IDrawable;
 import com.scs.physicsspacewar.entity.components.IGetPosition;
@@ -19,7 +19,7 @@ public abstract class PhysicalEntity extends Entity implements IDrawable, IGetPo
 	public Body body;
 	private boolean canSeeResult;
 	
-	public PhysicalEntity(Main _main, String _name) {
+	public PhysicalEntity(Main_SpaceWar _main, String _name) {
 		super(_main, _name);
 	}
 

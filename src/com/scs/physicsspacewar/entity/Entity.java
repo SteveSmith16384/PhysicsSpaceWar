@@ -4,7 +4,7 @@ import java.awt.Point;
 
 import org.jbox2d.dynamics.World;
 
-import com.scs.physicsspacewar.Main;
+import com.scs.physicsspacewar.Main_SpaceWar;
 
 public abstract class Entity { 
 	
@@ -12,10 +12,10 @@ public abstract class Entity {
 
 	public int id;
 	public Point tmpPoint = new Point();
-	protected Main main;
+	protected Main_SpaceWar main;
 	public String name;
 	
-	public Entity(Main _main, String _name) {
+	public Entity(Main_SpaceWar _main, String _name) {
 		super();
 		
 		main = _main;

@@ -5,20 +5,29 @@ import java.awt.Point;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
-import com.scs.physicsspacewar.Main;
+import com.scs.physicsspacewar.Main_SpaceWar;
 import com.scs.physicsspacewar.Statics;
 import com.scs.physicsspacewar.entity.Wall;
 
-public class PlanetSurface extends AbstractMap {
+public abstract class PlanetSurface extends AbstractMap {
 
-	public PlanetSurface(Main main) {
+	public PlanetSurface(Main_SpaceWar main) {
 		super(main);
 	}
 
 
-	public void createWorld(World world, Main main) {
-		Wall horiz = new Wall(main, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL-2, Statics.WORLD_WIDTH_LOGICAL, 2);
-		main.addEntity(horiz);
+	public void createWorld(World world, Main_SpaceWar main) {
+		Wall floor = new Wall(main, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL-2, Statics.WORLD_WIDTH_LOGICAL, 2);
+		main.addEntity(floor);
+
+		Wall ceiling = new Wall(main, Statics.WORLD_WIDTH_LOGICAL/2, 2, Statics.WORLD_WIDTH_LOGICAL, 2);
+		main.addEntity(ceiling);
+
+		Wall left = new Wall(main, 2, Statics.WORLD_HEIGHT_LOGICAL/2, 2, Statics.WORLD_HEIGHT_LOGICAL);
+		main.addEntity(left);
+
+		Wall right = new Wall(main, Statics.WORLD_WIDTH_LOGICAL-2, Statics.WORLD_HEIGHT_LOGICAL/2, 2, Statics.WORLD_HEIGHT_LOGICAL);
+		main.addEntity(right);
 
 	}
 
@@ -47,7 +56,7 @@ public class PlanetSurface extends AbstractMap {
 
 	@Override
 	public Vec2 getGravity() {
-		return new Vec2(0f, 5f);
+		return new Vec2(0f, 2f);
 	}
 
 }

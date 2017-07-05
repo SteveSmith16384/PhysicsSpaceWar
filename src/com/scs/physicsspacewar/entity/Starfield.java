@@ -7,13 +7,13 @@ import org.jbox2d.dynamics.World;
 
 import ssmith.lang.Functions;
 
-import com.scs.physicsspacewar.Main;
+import com.scs.physicsspacewar.Main_SpaceWar;
 import com.scs.physicsspacewar.entity.components.IDrawable;
 import com.scs.physicsspacewar.entity.systems.DrawingSystem;
 
 public class Starfield extends Entity implements IDrawable {
 
-	public Starfield(Main _main) {
+	public Starfield(Main_SpaceWar _main) {
 		super(_main, "Starfield");
 	}
 

@@ -5,22 +5,22 @@ import java.awt.Point;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
-import com.scs.physicsspacewar.Main;
+import com.scs.physicsspacewar.Main_SpaceWar;
 import com.scs.physicsspacewar.Statics;
 import com.scs.physicsspacewar.entity.Wall;
 
-public class GravityWars extends AbstractMap {
+public class GravityWars_Cross extends AbstractMap {
 
-	public GravityWars(Main main) {
+	public GravityWars_Cross(Main_SpaceWar main) {
 		super(main);
 	}
 
 
-	public void createWorld(World world, Main main) {
-		Wall horiz = new Wall(main, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL/2, Statics.WORLD_WIDTH_LOGICAL/3, Statics.WORLD_HEIGHT_LOGICAL/20);
+	public void createWorld(World world, Main_SpaceWar main) {
+		Wall horiz = new Wall(main, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL/2, Statics.WORLD_WIDTH_LOGICAL*.75f, Statics.WORLD_HEIGHT_LOGICAL/20);
 		main.addEntity(horiz);
 
-		Wall vert = new Wall(main, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL/2, Statics.WORLD_WIDTH_LOGICAL/20, Statics.WORLD_HEIGHT_LOGICAL/3);
+		Wall vert = new Wall(main, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL/2, Statics.WORLD_WIDTH_LOGICAL/20, Statics.WORLD_HEIGHT_LOGICAL*.75f);
 		main.addEntity(vert);
 	}
 

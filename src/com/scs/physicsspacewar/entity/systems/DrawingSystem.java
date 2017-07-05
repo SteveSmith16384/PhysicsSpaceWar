@@ -1,12 +1,9 @@
 package com.scs.physicsspacewar.entity.systems;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 
 import org.jbox2d.collision.shapes.CircleShape;
@@ -30,7 +27,6 @@ public class DrawingSystem {
 
 	public float currZoom = (MAX_ZOOM_IN+MAX_ZOOM_OUT)/2;
 	public Vec2 cam_centre_logical = new Vec2();
-	private Stroke stroke;
 	private boolean zoomIn, zoomOut;
 
 	// for drawing edges
@@ -38,7 +34,6 @@ public class DrawingSystem {
 	private Point tmp2 = new Point();
 
 	public DrawingSystem() {
-		stroke = new BasicStroke(4);
 	}
 
 
@@ -101,10 +96,7 @@ public class DrawingSystem {
 
 
 	public void drawDot(Point tmp, Graphics g, Vec2 worldpos, Color c) {
-		Graphics2D g2 = (Graphics2D)g;
-		g2.setStroke(stroke);
-		g2.setColor(c);
-
+		g.setColor(c);
 		getPixelPos(tmp, worldpos);
 		g.drawRect(tmp.x, tmp.y, 1, 1);
 
@@ -112,9 +104,9 @@ public class DrawingSystem {
 
 
 	public void drawShape(Point tmp, Graphics g, Body b, boolean mustBeOnscreen) {
-		Graphics2D g2 = (Graphics2D)g;
+		/*Graphics2D g2 = (Graphics2D)g;
 		g2.setStroke(stroke);
-
+*/
 		// Ensure within bounds of the world
 		Vec2 pos = b.getWorldCenter();
 		if (pos.x < 0) {

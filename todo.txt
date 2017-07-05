@@ -1,32 +1,18 @@
 TODO
-Make ship wider
-More platforms on planet
-Volcano
-Create AI
-Auto stop turning
-Max speed
-Rename Main
 Say if player won
-Use size 1 stroke for players ships
-	Make spaceship diff colours
-Destroy bullets after a while
-Colour bullets
-	Make starfield look better
 	Make confined area for battle - gravity wars 2
+	Randomly generate arena
+Add hills to planet
+Planet - rocks drop from sky
+Volcano
 	Sort out PS4 controls
-Look at Gravity Wars maps
 Make starfield stars more sporadic
 Search or todos
-Draw line from players
-	Draw line on edges of map
-	def zoom
-	Make starfield look better
-	Loop around world
-	get winner
-	Bullets hit own player after a few seconds
 
 
 LATER
+Create AI
+Draw line from players
 Players shoot homing missile
 Launch random Meteors
 Enemy bullets makes player go out of control
