@@ -18,7 +18,7 @@ public class PlanetRandom extends PlanetSurface {
 	public void createWorld(World world, Main_SpaceWar main) {
 		super.createWorld(world, main);
 
-		for (int i=0 ; i<4 ; i++) {
+		for (int i=0 ; i<6 ; i++) {
 			float x = Functions.rndFloat(0, Statics.WORLD_WIDTH_LOGICAL);
 			float y = Functions.rndFloat(0, Statics.WORLD_WIDTH_LOGICAL);
 			float w = Functions.rndFloat(Statics.WORLD_WIDTH_LOGICAL/4, Statics.WORLD_WIDTH_LOGICAL/2);

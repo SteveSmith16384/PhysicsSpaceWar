@@ -1,16 +1,17 @@
 TODO
+Increase jet power over time
+Halv turn speed over time
 Say if player won
 	Make confined area for battle - gravity wars 2
-	Randomly generate arena
-Add hills to planet
-Planet - rocks drop from sky
-Volcano
 	Sort out PS4 controls
-Make starfield stars more sporadic
 Search or todos
 
 
 LATER
+Make starfield stars more sporadic
+Add hills to planet
+Planet - rocks drop from sky
+Volcano
 Create AI
 Draw line from players
 Players shoot homing missile

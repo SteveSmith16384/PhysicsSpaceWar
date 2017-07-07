@@ -20,9 +20,9 @@ public class DrawingSystem {
 
 	private static final float OUTER = 0.2f;
 	private static final float INNER = 0.22f; // 0.3f
-	private static final float ZOOM_IN_SPEED = 1.01f;
+	private static final float ZOOM_IN_SPEED = 1.002f;
 	private static final float ZOOM_OUT_SPEED = .99f;
-	private static final float MAX_ZOOM_IN = 2.5f;
+	private static final float MAX_ZOOM_IN = 2.8f;
 	private static final float MAX_ZOOM_OUT = 0.5f;
 
 	public float currZoom = (MAX_ZOOM_IN+MAX_ZOOM_OUT)/2;

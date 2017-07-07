@@ -23,7 +23,7 @@ public class Wall extends PhysicalEntity implements IDrawable {
 		super(main, "Wall");
 		
 		BodyUserData bud = new BodyUserData("Wall", Color.green, this);
-		body = JBox2DFunctions.AddRectangle(bud, main.world, x, y, w, h, BodyType.STATIC, .1f, .2f, 10f);
+		body = JBox2DFunctions.AddRectangle(bud, main.world, x, y, w, h, BodyType.STATIC, .8f, .2f, 10f);
 	}
 
 

@@ -16,8 +16,8 @@ public class Statics {
 	public static final int WINDOW_WIDTH = 800;
 	public static final int WINDOW_HEIGHT = 600;
 
-	public static final int WORLD_WIDTH_LOGICAL = 1000;//(int)(WINDOW_WIDTH / LOGICAL_TO_PIXELS);
-	public static final int WORLD_HEIGHT_LOGICAL = 1000;//(int)(WINDOW_HEIGHT / LOGICAL_TO_PIXELS);
+	public static final int WORLD_WIDTH_LOGICAL = 800;//(int)(WINDOW_WIDTH / LOGICAL_TO_PIXELS);
+	public static final int WORLD_HEIGHT_LOGICAL = 800;//(int)(WINDOW_HEIGHT / LOGICAL_TO_PIXELS);
 
 	public static final Random rnd = new Random();
 

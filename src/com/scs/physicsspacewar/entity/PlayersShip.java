@@ -29,14 +29,15 @@ import com.scs.physicsspacewar.input.IInputDevice;
 
 public class PlayersShip extends PhysicalEntity implements IPlayerControllable, IDrawable, ICollideable, IProcessable, IAffectedByGravity, IDamagable, ICanShoot {
 
-	private static final float TURN_TORQUE = 80*8f;
-	private static final float TURN_SLOWDOWN_TORQUE = 80f;
+	private static final float SIZE = 6f;
+
+	private static final float TURN_TORQUE = 80*SIZE*4f;
+	private static final float TURN_SLOWDOWN_TORQUE = SIZE*20f;
 	private static final float MAX_ANGLE_VEL = 4f;
-	private static final float JET_FORCE = 70*15f;
+	private static final float JET_FORCE = 70*SIZE*4f;
 	private static final float MAX_VELOCITY = 30f;
 
 	private static final int SHOT_INT = 500;
-	public static final float SIZE = 4f;
 
 	public int id;
 	private IInputDevice input;
