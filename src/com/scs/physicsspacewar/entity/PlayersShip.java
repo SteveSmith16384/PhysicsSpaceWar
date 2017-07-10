@@ -34,7 +34,7 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 	private static final float TURN_TORQUE = 80*SIZE*4f;
 	private static final float TURN_SLOWDOWN_TORQUE = SIZE*20f;
 	private static final float MAX_ANGLE_VEL = 4f;
-	private static final float JET_FORCE = 70*SIZE*4f;
+	private static final float JET_FORCE = 70*SIZE*7f; // 4f
 	private static final float MAX_VELOCITY = 30f;
 
 	private static final int SHOT_INT = 500;
@@ -116,7 +116,7 @@ public class PlayersShip extends PhysicalEntity implements IPlayerControllable, 
 		// cap max velocity on x		
 		if(Math.abs(vel.x) > MAX_VELOCITY) {			
 			vel.x = Math.signum(vel.x) * MAX_VELOCITY;
-			Statics.p("Max speed!");
+			//Statics.p("Max speed!");
 			body.setLinearVelocity(vel);
 		}
 

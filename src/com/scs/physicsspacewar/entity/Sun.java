@@ -16,16 +16,16 @@ import com.scs.physicsspacewar.entity.components.IDrawable;
 import com.scs.physicsspacewar.entity.systems.DrawingSystem;
 
 /*
- * Not that sun's are NOT affected by gravity
+ * Note that sun's are NOT affected by gravity
  */
 public class Sun extends PhysicalEntity implements IDrawable, ICausesGravity {
 
 	private Stroke stroke = new BasicStroke(4);
 
-	public Sun(Main_SpaceWar main, float x, float y, float rad) {
+	public Sun(Main_SpaceWar main, float x, float y, float rad, Color c) {
 		super(main, "Sun");
 		
-		BodyUserData bud = new BodyUserData("Sun", Color.yellow, this);
+		BodyUserData bud = new BodyUserData("Sun", c, this);
 		body = JBox2DFunctions.AddCircle(bud, main.world, x, y, rad, BodyType.DYNAMIC, .1f, .2f, 10f);
 	}
 

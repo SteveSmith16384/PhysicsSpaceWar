@@ -40,7 +40,10 @@ import com.scs.physicsspacewar.input.DeviceThread;
 import com.scs.physicsspacewar.input.IInputDevice;
 import com.scs.physicsspacewar.input.NewControllerListener;
 import com.scs.physicsspacewar.map.AbstractMap;
+import com.scs.physicsspacewar.map.GravityWars_Cross;
+import com.scs.physicsspacewar.map.LotsOfMoons;
 import com.scs.physicsspacewar.map.PlanetRandom;
+import com.scs.physicsspacewar.map.SolarSystem;
 
 public class Main_SpaceWar implements ContactListener, NewControllerListener, KeyListener {
 
@@ -56,10 +59,13 @@ public class Main_SpaceWar implements ContactListener, NewControllerListener, Ke
 	private DrawingSystem drawingSystem;
 	private PlayerInputSystem playerInputSystem;
 	private List<Contact> collisions = new LinkedList<>();
-	private AbstractMap level;
+	private AbstractMap map;
 	private boolean restartLevel = false;
 
-
+	private int gameStage = -1;
+	private int levelID;
+	private int newLevel = -1;
+	
 	public static void main(String[] args) {
 		new Main_SpaceWar();
 	}
@@ -81,7 +87,7 @@ public class Main_SpaceWar implements ContactListener, NewControllerListener, Ke
 			drawingSystem = new DrawingSystem();
 			playerInputSystem = new PlayerInputSystem();
 
-			startLevel();
+			//startLevel();
 			this.gameLoop();
 
 		} catch (Exception ex) {
@@ -91,21 +97,42 @@ public class Main_SpaceWar implements ContactListener, NewControllerListener, Ke
 	}
 
 
+	private void startLevel(int level) {
+		levelID = level;
+		this.gameStage = 0;
+		this.startLevel();
+	}
+	
+	
 	private void startLevel() {
 		this.entities = new TSArrayList<Entity>();
 		this.gravityCausers = new TSArrayList<ICausesGravity>();
 		playerShips = new ArrayList<Entity>();
 
-		level = new PlanetRandom(this);//PlanetSurface(this);//GravityWars(this);// SolarSystem(this); 
+		switch (levelID) {
+		case 1:
+			map = new SolarSystem(this);
+			break;
+		case 2:
+			map = new PlanetRandom(this);
+			break;
+		case 3:
+			map = new GravityWars_Cross(this);
+			break;
+		case 4:
+			map = new LotsOfMoons(this);
+			break;
+		default:
+			map = new LotsOfMoons(this);
+		}
 
-		//Vec2 gravity = new Vec2(0f, 0f);
-		world = new World(level.getGravity());
+		world = new World(map.getGravity());
 		world.setContactListener(this);
 
 		this.addEntity(new Starfield(this));
 
-		level.createWorld(world, this);
-		this.addEntity(level);
+		map.createWorld(world, this);
+		this.addEntity(map);
 
 		// Create avatars
 		for (Player player : this.players) {
@@ -122,94 +149,103 @@ public class Main_SpaceWar implements ContactListener, NewControllerListener, Ke
 		final int positionIterations = 4;//3;//2;
 
 		while (window.isVisible()) {
-			synchronized (newControllers) {
-				while (this.newControllers.isEmpty() == false) {
-					this.loadPlayer(this.newControllers.remove(0));
-				}
-			}
-
-			this.entities.refresh();
-			this.gravityCausers.refresh();
-
-			// Preprocess
-			for (Entity e : this.entities) {
-				if (e instanceof IProcessable) {
-					IProcessable id = (IProcessable)e;
-					id.preprocess(interpol);
-				}
-				// Positional gravity
-				if (e instanceof IAffectedByGravity) {
-					IAffectedByGravity affected = (IAffectedByGravity)e;
-					for (ICausesGravity cg : this.gravityCausers) {
-						if (e != cg) {
-							Vec2 dir = cg.getPosition().sub(affected.getPosition());
-							float dist = (float)Math.sqrt(dir.length()*cg.getMass());
-							float force = (float)Math.pow(dist, -2);
-							force = force * (affected.getMass() * cg.getMass()) * 2; // adjust by mass
-							affected.applyForceToCenter(dir.mul(force));
-						}
-					}
-				}
-			}
-
-			// Player input first
-			if (DeviceThread.USE_CONTROLLERS) {
-				Controllers.checkControllers();
-			}
-
-			Vec2 newCamPos = new Vec2();
-			for (Entity e : this.playerShips) {
-				IPlayerControllable id = (IPlayerControllable)e;
-				this.playerInputSystem.process(id);
-				newCamPos.x += id.getPosition().x;
-				newCamPos.y += id.getPosition().y;
-			}
-			if (playerShips.size() > 0) {
-				newCamPos.x /= playerShips.size();
-				newCamPos.y /= playerShips.size();
-
-				this.drawingSystem.cam_centre_logical.x = newCamPos.x;
-				this.drawingSystem.cam_centre_logical.y = newCamPos.y;
-			} else {
-				// Default to centre
-				this.drawingSystem.cam_centre_logical.x = Statics.WORLD_WIDTH_LOGICAL/2;
-				this.drawingSystem.cam_centre_logical.y = Statics.WORLD_HEIGHT_LOGICAL/2;
-			}
-
-			collisions.clear();
-			world.step(timeStep, velocityIterations, positionIterations);
-			while (collisions.isEmpty() == false) {
-				processCollision(collisions.remove(0));
-			}
-
-			// Draw screen
 			Graphics g = window.BS.getDrawGraphics();
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, Statics.WINDOW_WIDTH, Statics.WINDOW_HEIGHT);
 
-			g.setColor(Color.white);
-			//g.drawString("Press ESC to Restart", 20, 50);
-			g.drawString("Num Entities: " + this.entities.size(), 20, 70);
-			g.drawString("Zoom: " + this.drawingSystem.currZoom, 20, 90);
-
-			drawingSystem.startOfDrawing(g);
-			for (Entity e : this.entities) {
-				if (e instanceof IDrawable) {
-					IDrawable sprite = (IDrawable)e;
-					sprite.draw(g, drawingSystem);
+			if (gameStage == -1) {
+				drawMainMenu(g);
+			} else {
+				synchronized (newControllers) {
+					while (this.newControllers.isEmpty() == false) {
+						this.loadPlayer(this.newControllers.remove(0));
+					}
 				}
-				if (e instanceof IProcessable) {
-					IProcessable id = (IProcessable)e;
-					id.postprocess(interpol);
+				
+				if (newLevel >= 0) {
+					this.startLevel(newLevel);
+					newLevel = -1;
 				}
-			}
-			drawingSystem.endOfDrawing();
 
-			if (this.players.size() > 0 && playerShips.isEmpty()) {
-				this.nextLevel();
-			} else if (restartLevel) {
-				restartLevel = false;
-				this.startLevel();
+				this.entities.refresh();
+				this.gravityCausers.refresh();
+
+				// Preprocess
+				for (Entity e : this.entities) {
+					if (e instanceof IProcessable) {
+						IProcessable id = (IProcessable)e;
+						id.preprocess(interpol);
+					}
+					// Positional gravity
+					if (e instanceof IAffectedByGravity) {
+						IAffectedByGravity affected = (IAffectedByGravity)e;
+						for (ICausesGravity cg : this.gravityCausers) {
+							if (e != cg) {
+								Vec2 dir = cg.getPosition().sub(affected.getPosition());
+								float dist = (float)Math.sqrt(dir.length()*cg.getMass());
+								float force = (float)Math.pow(dist, -2);
+								force = force * (affected.getMass() * cg.getMass()) * 2; // adjust by mass
+								affected.applyForceToCenter(dir.mul(force));
+							}
+						}
+					}
+				}
+
+				// Player input first
+				if (DeviceThread.USE_CONTROLLERS) {
+					Controllers.checkControllers();
+				}
+
+				Vec2 newCamPos = new Vec2();
+				for (Entity e : this.playerShips) {
+					IPlayerControllable id = (IPlayerControllable)e;
+					this.playerInputSystem.process(id);
+					newCamPos.x += id.getPosition().x;
+					newCamPos.y += id.getPosition().y;
+				}
+				if (playerShips.size() > 0) {
+					newCamPos.x /= playerShips.size();
+					newCamPos.y /= playerShips.size();
+
+					this.drawingSystem.cam_centre_logical.x = newCamPos.x;
+					this.drawingSystem.cam_centre_logical.y = newCamPos.y;
+				} else {
+					// Default to centre
+					this.drawingSystem.cam_centre_logical.x = Statics.WORLD_WIDTH_LOGICAL/2;
+					this.drawingSystem.cam_centre_logical.y = Statics.WORLD_HEIGHT_LOGICAL/2;
+				}
+
+				collisions.clear();
+				world.step(timeStep, velocityIterations, positionIterations);
+				while (collisions.isEmpty() == false) {
+					processCollision(collisions.remove(0));
+				}
+
+				// Draw screen
+				g.setColor(Color.white);
+				//g.drawString("Press ESC to Restart", 20, 50);
+				g.drawString("Num Entities: " + this.entities.size(), 20, 70);
+				g.drawString("Zoom: " + this.drawingSystem.currZoom, 20, 90);
+
+				drawingSystem.startOfDrawing(g);
+				for (Entity e : this.entities) {
+					if (e instanceof IDrawable) {
+						IDrawable sprite = (IDrawable)e;
+						sprite.draw(g, drawingSystem);
+					}
+					if (e instanceof IProcessable) {
+						IProcessable id = (IProcessable)e;
+						id.postprocess(interpol);
+					}
+				}
+				drawingSystem.endOfDrawing();
+
+				if (this.players.size() > 0 && playerShips.isEmpty()) {
+					this.startLevel();
+				} else if (restartLevel) {
+					restartLevel = false;
+					this.startLevel();
+				}
 			}
 
 			window.BS.show();
@@ -285,18 +321,16 @@ public class Main_SpaceWar implements ContactListener, NewControllerListener, Ke
 
 	public void removeEntity(Entity b) {
 		b.cleanup(world);
-		/*if (b instanceof PhysicalEntity) {
-			PhysicalEntity pe = (PhysicalEntity)b;
-			world.destroyBody(pe.body);
-		}*/
 
 		synchronized (entities) {
 			this.entities.remove(b);
 		}		
+
 		if (b instanceof ICausesGravity) {
 			ICausesGravity cg = (ICausesGravity)b;
 			this.gravityCausers.remove(cg);
 		}
+
 		if (b instanceof IPlayerControllable) {
 			this.playerShips.remove(b);
 		}
@@ -322,20 +356,15 @@ public class Main_SpaceWar implements ContactListener, NewControllerListener, Ke
 
 
 	private void createAvatar(Player player) {
-		Point p = this.level.getPlayerStartPos(player.id_ZB);
+		Point p = this.map.getPlayerStartPos(player.id_ZB);
 		PlayersShip avatar = new PlayersShip(player, this, world, p.x, p.y);
 		this.addEntity(avatar);
 	}
 
 
 	public void restartAvatar(PlayersShip avatar) {
-		Point p = this.level.getPlayerStartPos(avatar.id);
+		Point p = this.map.getPlayerStartPos(avatar.id);
 		avatar.body.setTransform(new Vec2(p.x, p.y), 0);
-	}
-
-
-	public void nextLevel() {
-		this.startLevel();
 	}
 
 
@@ -369,9 +398,13 @@ public class Main_SpaceWar implements ContactListener, NewControllerListener, Ke
 		if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			//this.setVisible(false);
 			//this.dispose();
-			restartLevel = true;
+			//restartLevel = true;
 			//startLevel();
-		} else if (ke.getKeyCode() == KeyEvent.VK_1) {
+			this.gameStage = -1;
+		} else if (ke.getKeyCode() >= KeyEvent.VK_1 && ke.getKeyCode() <= KeyEvent.VK_5) {
+			newLevel = ke.getKeyCode() - KeyEvent.VK_1 + 1;
+			this.gameStage = 0;
+		} else if (ke.getKeyCode() == KeyEvent.VK_T) {
 			IGetPosition ig = (IGetPosition)this.playerShips.get(0);
 			Vec2 pos = new Vec2();
 			pos.y += 50;
@@ -403,6 +436,24 @@ public class Main_SpaceWar implements ContactListener, NewControllerListener, Ke
 			}
 		}
 
+	}
+
+
+	private void drawMainMenu(Graphics g) {
+		g.setColor(Color.white);
+		int x = 20;
+		int y = 40;
+		int yInc = 20;
+		g.drawString("PLEASE SELECT A STAR SYSTEM", x, y);
+		y += yInc;
+		g.drawString("1 - Solar System", x, y);
+		y += yInc;
+		g.drawString("2 - Planet Surface", x, y);
+		y += yInc;
+		g.drawString("3 - The Cross", x, y);
+		y += yInc;
+		g.drawString("4 - Lots of Moons", x, y);
+		y += yInc;
 	}
 }
 

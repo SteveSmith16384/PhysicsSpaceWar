@@ -5,8 +5,6 @@ import java.awt.Graphics;
 
 import org.jbox2d.dynamics.World;
 
-import ssmith.lang.Functions;
-
 import com.scs.physicsspacewar.Main_SpaceWar;
 import com.scs.physicsspacewar.entity.components.IDrawable;
 import com.scs.physicsspacewar.entity.systems.DrawingSystem;

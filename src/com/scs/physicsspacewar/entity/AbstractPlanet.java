@@ -12,7 +12,6 @@ import com.scs.physicsspacewar.BodyUserData;
 import com.scs.physicsspacewar.JBox2DFunctions;
 import com.scs.physicsspacewar.Main_SpaceWar;
 import com.scs.physicsspacewar.entity.components.IAffectedByGravity;
-import com.scs.physicsspacewar.entity.components.ICausesGravity;
 import com.scs.physicsspacewar.entity.components.IDrawable;
 import com.scs.physicsspacewar.entity.systems.DrawingSystem;
 

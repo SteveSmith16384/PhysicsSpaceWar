@@ -16,7 +16,6 @@ import com.scs.physicsspacewar.entity.Sun;
 public class SolarSystem extends AbstractMap {
 
 	private RealtimeInterval meteorInt = new RealtimeInterval(3000);
-	private boolean missile = false;
 
 	public SolarSystem(Main_SpaceWar main) {
 		super(main);
@@ -30,7 +29,7 @@ public class SolarSystem extends AbstractMap {
 
 
 	public void createWorld(World world, Main_SpaceWar main) {
-		Sun sun = new Sun(main, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL/2, 50);
+		Sun sun = new Sun(main, Statics.WORLD_WIDTH_LOGICAL/2, Statics.WORLD_HEIGHT_LOGICAL/2, 50, Color.yellow);
 		main.addEntity(sun);
 
 		Moon highMoon = new Moon(main, Statics.WORLD_WIDTH_LOGICAL/2, (Statics.WORLD_HEIGHT_LOGICAL/2) + 200, 10, Color.white);

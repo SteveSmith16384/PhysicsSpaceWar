@@ -1,7 +1,5 @@
 package com.scs.physicsspacewar.entity;
 
-import java.awt.Graphics;
-
 import org.jbox2d.callbacks.RayCastCallback;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -12,7 +10,6 @@ import com.scs.physicsspacewar.Main_SpaceWar;
 import com.scs.physicsspacewar.Statics;
 import com.scs.physicsspacewar.entity.components.IDrawable;
 import com.scs.physicsspacewar.entity.components.IGetPosition;
-import com.scs.physicsspacewar.entity.systems.DrawingSystem;
 
 public abstract class PhysicalEntity extends Entity implements IDrawable, IGetPosition, RayCastCallback {
 
