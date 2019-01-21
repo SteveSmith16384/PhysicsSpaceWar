@@ -1,6 +1,8 @@
 # Space War!
 
-A physics-based multiplayer battle game.  
+A physics-based multiplayer battle game.
+
+Designed and programmed by Stephen Smith (stephen.carlylesmith_AT_googlemail.com)
 
 Uses JBox2d for the physics and keyboard/gamepads for the controls.
 
