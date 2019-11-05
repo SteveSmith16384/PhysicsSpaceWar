@@ -20,9 +20,6 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 
-import ssmith.awt.ImageCache;
-import ssmith.util.TSArrayList;
-
 import com.scs.physicsspacewar.entity.Entity;
 import com.scs.physicsspacewar.entity.HomingMissile;
 import com.scs.physicsspacewar.entity.PlayersShip;
@@ -44,6 +41,9 @@ import com.scs.physicsspacewar.map.GravityWars_Cross;
 import com.scs.physicsspacewar.map.LotsOfMoons;
 import com.scs.physicsspacewar.map.PlanetRandom;
 import com.scs.physicsspacewar.map.SolarSystem;
+
+import ssmith.awt.ImageCache;
+import ssmith.util.TSArrayList;
 
 public class Main_SpaceWar implements ContactListener, NewControllerListener, KeyListener {
 
@@ -149,9 +149,11 @@ public class Main_SpaceWar implements ContactListener, NewControllerListener, Ke
 		final int positionIterations = 4;//3;//2;
 
 		while (window.isVisible()) {
+			long start = System.currentTimeMillis();
+
 			Graphics g = window.BS.getDrawGraphics();
 			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, Statics.WINDOW_WIDTH, Statics.WINDOW_HEIGHT);
+			g.fillRect(0, 0, this.window.getWidth(), this.window.getHeight());
 
 			if (gameStage == -1) {
 				drawMainMenu(g);
@@ -223,7 +225,7 @@ public class Main_SpaceWar implements ContactListener, NewControllerListener, Ke
 
 				// Draw screen
 				g.setColor(Color.white);
-				//g.drawString("Press ESC to Restart", 20, 50);
+				g.drawString("Press ESC to Restart", 20, 50);
 				g.drawString("Num Entities: " + this.entities.size(), 20, 70);
 				g.drawString("Zoom: " + this.drawingSystem.currZoom, 20, 90);
 
@@ -250,9 +252,13 @@ public class Main_SpaceWar implements ContactListener, NewControllerListener, Ke
 
 			window.BS.show();
 
+			long end = System.currentTimeMillis();
+			long diff = end-start;
 			try {
-				interpol = 1000/Statics.FPS;
-				Thread.sleep(interpol); // todo - calc start-end diff
+				interpol = (1000/Statics.FPS) - diff;
+				if (interpol > 0) {
+					Thread.sleep(interpol);
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -442,7 +448,7 @@ public class Main_SpaceWar implements ContactListener, NewControllerListener, Ke
 	private void drawMainMenu(Graphics g) {
 		g.setColor(Color.white);
 		int x = 20;
-		int y = 40;
+		int y = 60;
 		int yInc = 20;
 		g.drawString("PLEASE SELECT A STAR SYSTEM", x, y);
 		y += yInc;

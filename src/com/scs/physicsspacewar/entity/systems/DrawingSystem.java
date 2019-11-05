@@ -60,7 +60,7 @@ public class DrawingSystem {
 
 		// Bottom
 		this.getPixelPos(tmp1, new Vec2(0, Statics.WORLD_HEIGHT_LOGICAL));
-		this.getPixelPos(tmp2, new Vec2(Statics.WORLD_HEIGHT_LOGICAL, Statics.WORLD_HEIGHT_LOGICAL));
+		this.getPixelPos(tmp2, new Vec2(Statics.WORLD_WIDTH_LOGICAL, Statics.WORLD_HEIGHT_LOGICAL));
 		g.drawLine(tmp1.x, tmp1.y, tmp2.x, tmp2.y);
 	}
 
